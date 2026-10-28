@@ -1,0 +1,581 @@
+#!/usr/bin/env python3
+"""
+patch_template.py
+
+Extends Ant Media's reference auto scaling CloudFormation template with a
+ScalingMode parameter, so the cluster can scale either on CPU, as it does
+today, or on the capacity weighted load index built for this dissertation.
+
+    python3 patch_template.py STOCK.yaml -o ams-cluster-streamaware.yaml
+
+Every change is additive. With ScalingMode left at CPU the stack behaves
+exactly as the stock template does, so the two modes can be compared on the
+same infrastructure by changing one parameter in a stack update.
+
+WHAT IT CHANGES, AND WHY
+
+1. Four new parameters: ScalingMode, LoadIndexTargetValue, ScaleInThreshold
+   and CollectorUrl.
+
+2. An IAM role and instance profile. The stock template creates no instance
+   profile at all, so a node today has no permission to call PutMetricData
+   and the collector could not publish anything. This is the change that
+   makes the rest possible. The policy grants only PutMetricData and the
+   DescribeTags needed to read the group name.
+
+3. Group metrics collection on both auto scaling groups. The scaling policy
+   divides fleet load by fleet size, and GroupDesiredCapacity is not
+   published unless collection is enabled.
+
+4. The collector installed and started by user data on every node, with
+   --role origin or --role edge to match the tier. It is installed in BOTH
+   modes deliberately. Running it while scaling on CPU is what produces the
+   load index trace for a CPU mode run, which is what makes the comparison
+   between the two modes possible at all.
+
+5. The existing CPU policies become conditional on ScalingMode being CPU.
+
+6. New stream aware policies, conditional on ScalingMode being StreamAware:
+
+   Scale out, target tracking on the fleet load index. The expression is
+   SUM of the per node LoadIndex divided by GroupDesiredCapacity, not the
+   average of a per instance metric.
+
+   That distinction is the single most important line in this file.
+   Simulation against the measured capacity figures showed that target
+   tracking on a per instance average over provisions this workload badly,
+   reaching 33 nodes where 17 were needed. The cause is that a WebRTC
+   session is pinned to the edge that terminates it and cannot be moved, so
+   after a surge the loaded node stays loaded while new nodes sit empty and
+   the average stays high. Dividing total load by total capacity gave the
+   same protection for roughly half the cost.
+
+   Dividing by GroupDesiredCapacity rather than GroupInServiceInstances
+   counts nodes that are still booting, which stops the policy ordering the
+   same capacity twice while it waits.
+
+   Scale in, separate and deliberately slow. Target tracking's own scale in
+   is disabled and replaced by an alarm requiring the fleet index to stay
+   below the threshold for fifteen consecutive minutes. Observed on a live
+   cluster: the stock CPU policy removed a node five minutes and forty five
+   seconds after it was added, before it had served anything useful. A node
+   takes around 106 seconds to become available and a further five minutes
+   to drain on the way out, so removing one early costs more than keeping it.
+
+   Two safety alarms, on CPU above 75 percent and on GPU encoder above 75
+   percent. The index is only as good as the capacity table behind it, and
+   these catch anything it has not anticipated. The GPU alarm is not
+   decoration: on a g5.4xlarge the encoder saturates at twelve transcoded
+   1080p streams while CPU reads 15 to 20 percent, so a CPU alarm alone
+   would never fire on that hardware.
+"""
+
+import argparse
+import sys
+
+
+class PatchError(Exception):
+    pass
+
+
+def splice(text, anchor, addition, where="after", label=""):
+    """Insert addition relative to anchor, failing loudly if anchor is absent."""
+    count = text.count(anchor)
+    if count == 0:
+        raise PatchError(
+            "anchor not found for %s.\nThe template may be a different "
+            "version than this patch was written against.\nLooked for:\n%s"
+            % (label, anchor))
+    if count > 1:
+        raise PatchError(
+            "anchor is ambiguous for %s: found %d times. Refusing to guess."
+            % (label, count))
+    if where == "after":
+        return text.replace(anchor, anchor + addition)
+    return text.replace(anchor, addition + anchor)
+
+
+# ---------------------------------------------------------------------------
+# 1. Parameters
+# ---------------------------------------------------------------------------
+
+ANCHOR_PARAMS = """  CPUPolicyTargetValue:
+    Type: Number
+    Default: 60.0
+    Description: This parameter for creates new Instances when CPU load exceed to %60.
+"""
+
+NEW_PARAMS = """  ScalingMode:
+    Type: String
+    Default: CPU
+    AllowedValues:
+      - CPU
+      - StreamAware
+    Description: >-
+      Which signal drives auto scaling. CPU keeps the stock behaviour, target
+      tracking on average CPU utilisation. StreamAware scales on a capacity
+      weighted load index built from stream and viewer counts, published by
+      the collector running on each node. Switchable with a stack update, so
+      both can be compared on the same infrastructure.
+  LoadIndexTargetValue:
+    Type: Number
+    Default: 0.70
+    Description: >-
+      Target for the fleet load index when ScalingMode is StreamAware. An
+      index of 1.0 means nodes are carrying exactly the load measured as
+      their capacity in load testing, so 0.70 leaves headroom for the time a
+      new node takes to become available.
+  ScaleInThreshold:
+    Type: Number
+    Default: 0.35
+    Description: >-
+      The fleet load index must stay below this for fifteen consecutive
+      minutes before a node is removed. Deliberately slow: a node costs
+      around 106 seconds to add and five minutes to drain, so removing one
+      early is expensive.
+  CollectorUrl:
+    Type: String
+    Default: ''
+    Description: >-
+      HTTP(S) URL the nodes fetch ams_metric_collector.py from at boot. Leave
+      empty to skip installing the collector, in which case StreamAware mode
+      will have no metric to scale on.
+"""
+
+# ---------------------------------------------------------------------------
+# 2. Conditions
+# ---------------------------------------------------------------------------
+
+ANCHOR_CONDITIONS = """Conditions:
+  UseGPUImage: !Equals 
+    - !Ref GPUImage
+    - true
+"""
+
+NEW_CONDITIONS = """  UseCPUScaling: !Equals
+    - !Ref ScalingMode
+    - CPU
+  UseStreamAware: !Equals
+    - !Ref ScalingMode
+    - StreamAware
+  InstallCollector: !Not
+    - !Equals
+      - !Ref CollectorUrl
+      - ''
+"""
+
+# ---------------------------------------------------------------------------
+# 3. IAM role and instance profile
+# ---------------------------------------------------------------------------
+
+ANCHOR_IAM = """  DescribeImagesRole:
+    Type: AWS::IAM::Role
+"""
+
+NEW_IAM = """  AntMediaNodeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+      Policies:
+        - PolicyName: PublishScalingMetrics
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: '*'
+                Condition:
+                  StringEquals:
+                    cloudwatch:namespace: AntMedia/Scaling
+              - Effect: Allow
+                Action:
+                  - ec2:DescribeTags
+                Resource: '*'
+
+  AntMediaNodeInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref AntMediaNodeRole
+
+"""
+
+# ---------------------------------------------------------------------------
+# 4. Group metrics collection. Note the two groups are indented differently
+#    in the stock template, so each gets its own anchor.
+# ---------------------------------------------------------------------------
+
+ANCHOR_ORIGIN_TAGS = """        Tags:
+        - Key: Name
+          Value: Antmedia-Origin
+          PropagateAtLaunch: 'true'
+"""
+
+NEW_ORIGIN_METRICS = """        MetricsCollection:
+          - Granularity: 1Minute
+            Metrics:
+              - GroupDesiredCapacity
+              - GroupInServiceInstances
+"""
+
+ANCHOR_EDGE_TAGS = """      Tags:
+        - Key: Name
+          Value: Antmedia-Edge
+          PropagateAtLaunch: 'true'
+"""
+
+NEW_EDGE_METRICS = """      MetricsCollection:
+        - Granularity: 1Minute
+          Metrics:
+            - GroupDesiredCapacity
+            - GroupInServiceInstances
+"""
+
+# ---------------------------------------------------------------------------
+# 5. Instance profile on both launch templates
+# ---------------------------------------------------------------------------
+
+ANCHOR_LT_ORIGIN = """        InstanceType: !Ref OriginInstanceType
+        KeyName: !Ref KeyName
+"""
+
+ANCHOR_LT_EDGE = """        InstanceType: !Ref EdgeInstanceType
+        KeyName: !Ref KeyName
+"""
+
+NEW_LT_PROFILE = """        IamInstanceProfile:
+          Arn: !GetAtt AntMediaNodeInstanceProfile.Arn
+"""
+
+# ---------------------------------------------------------------------------
+# 6. Collector install in user data.
+#
+#    Inside Fn::Base64 !Sub, ${X} is substituted by CloudFormation. Shell
+#    variables therefore have to be written ${!X}. This block avoids shell
+#    variables entirely to keep that trap out of the way.
+# ---------------------------------------------------------------------------
+
+def collector_userdata(role, group_resource):
+    return """            # ---- stream aware scaling: metric collector ----
+            # Installed in both scaling modes on purpose. Running it while
+            # the stack scales on CPU is what produces the load index trace
+            # for a CPU mode run, which is what makes the two modes
+            # comparable.
+            if [ -n "${CollectorUrl}" ]; then
+              sudo apt-get -y install python3-boto3 || sudo pip3 install boto3 --break-system-packages
+              sudo mkdir -p /opt/ams-collector
+              sudo curl -fsSL "${CollectorUrl}" -o /opt/ams-collector/ams_metric_collector.py
+              sudo chmod 755 /opt/ams-collector/ams_metric_collector.py
+              sudo tee /etc/systemd/system/ams-collector.service > /dev/null <<'UNIT'
+            [Unit]
+            Description=Ant Media scaling metric collector
+            After=antmedia.service network-online.target
+            Wants=antmedia.service
+
+            [Service]
+            Type=simple
+            ExecStart=/usr/bin/python3 /opt/ams-collector/ams_metric_collector.py --role ROLE_PLACEHOLDER --group GROUP_PLACEHOLDER --interval 60
+            Restart=always
+            RestartSec=30
+            User=root
+
+            [Install]
+            WantedBy=multi-user.target
+            UNIT
+              sudo sed -i 's/^            //' /etc/systemd/system/ams-collector.service
+              sudo sed -i "s|ROLE_PLACEHOLDER|%s|" /etc/systemd/system/ams-collector.service
+              sudo sed -i "s|GROUP_PLACEHOLDER|${%s}|" /etc/systemd/system/ams-collector.service
+              sudo systemctl daemon-reload
+              sudo systemctl enable --now ams-collector.service
+            fi
+""" % (role, group_resource)
+
+
+ANCHOR_SIGNAL_ORIGIN = """            /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource OriginGroup --region ${AWS::Region}
+"""
+
+ANCHOR_SIGNAL_EDGE = """            /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EdgeGroup --region ${AWS::Region}
+"""
+
+# ---------------------------------------------------------------------------
+# 7. Condition on the existing CPU policies
+# ---------------------------------------------------------------------------
+
+ANCHOR_ORIGIN_CPU = """  OriginCPUPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+"""
+REPLACE_ORIGIN_CPU = """  OriginCPUPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Condition: UseCPUScaling
+    Properties:
+"""
+
+ANCHOR_EDGE_CPU = """  EdgeCPUPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+"""
+REPLACE_EDGE_CPU = """  EdgeCPUPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Condition: UseCPUScaling
+    Properties:
+"""
+
+# ---------------------------------------------------------------------------
+# 8. The stream aware policies
+# ---------------------------------------------------------------------------
+
+def stream_aware_block(tier, group_ref):
+    """
+    Scale out, scale in and safety alarms for one tier.
+
+    The scale out metric is SUM(LoadIndex) / GroupDesiredCapacity. Summing
+    the per node index and dividing by the fleet size gives total load over
+    total capacity, which is proportional to load and so makes target
+    tracking's proportional sizing exact. An average of a per instance
+    metric is not proportional when load is unevenly spread, which is the
+    normal state of this workload because sessions cannot migrate.
+    """
+    return """
+  {tier}LoadIndexPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Condition: UseStreamAware
+    Properties:
+      AutoScalingGroupName: !Ref {group}
+      PolicyType: TargetTrackingScaling
+      TargetTrackingConfiguration:
+        DisableScaleIn: true
+        TargetValue: !Ref LoadIndexTargetValue
+        CustomizedMetricSpecification:
+          Metrics:
+            - Id: fleetload
+              Label: Sum of per node load index
+              MetricStat:
+                Metric:
+                  Namespace: AntMedia/Scaling
+                  MetricName: LoadIndex
+                  Dimensions:
+                    - Name: AutoScalingGroupName
+                      Value: !Ref {group}
+                Stat: Sum
+              ReturnData: false
+            - Id: fleetsize
+              Label: Nodes asked for, including those still booting
+              MetricStat:
+                Metric:
+                  Namespace: AWS/AutoScaling
+                  MetricName: GroupDesiredCapacity
+                  Dimensions:
+                    - Name: AutoScalingGroupName
+                      Value: !Ref {group}
+                Stat: Average
+              ReturnData: false
+            - Id: fleetindex
+              Label: Fleet load over fleet capacity
+              Expression: fleetload / fleetsize
+              ReturnData: true
+
+  {tier}ScaleInPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Condition: UseStreamAware
+    Properties:
+      AutoScalingGroupName: !Ref {group}
+      PolicyType: SimpleScaling
+      AdjustmentType: ChangeInCapacity
+      ScalingAdjustment: -1
+      Cooldown: '300'
+
+  {tier}ScaleInAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Condition: UseStreamAware
+    Properties:
+      AlarmDescription: >-
+        Fleet load index has stayed low for fifteen consecutive minutes.
+        Deliberately slow. A node takes around 106 seconds to become
+        available and five minutes to drain, and the stock CPU policy was
+        observed removing a node five minutes and forty five seconds after
+        adding it.
+      Namespace: AntMedia/Scaling
+      ComparisonOperator: LessThanThreshold
+      Threshold: !Ref ScaleInThreshold
+      EvaluationPeriods: 15
+      DatapointsToAlarm: 15
+      TreatMissingData: notBreaching
+      Metrics:
+        - Id: fleetload
+          MetricStat:
+            Metric:
+              Namespace: AntMedia/Scaling
+              MetricName: LoadIndex
+              Dimensions:
+                - Name: AutoScalingGroupName
+                  Value: !Ref {group}
+            Period: 60
+            Stat: Sum
+          ReturnData: false
+        - Id: fleetsize
+          MetricStat:
+            Metric:
+              Namespace: AWS/AutoScaling
+              MetricName: GroupDesiredCapacity
+              Dimensions:
+                - Name: AutoScalingGroupName
+                  Value: !Ref {group}
+            Period: 60
+            Stat: Average
+          ReturnData: false
+        - Id: fleetindex
+          Expression: fleetload / fleetsize
+          ReturnData: true
+      AlarmActions:
+        - !Ref {tier}ScaleInPolicy
+
+  {tier}CPUSafetyPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Condition: UseStreamAware
+    Properties:
+      AutoScalingGroupName: !Ref {group}
+      PolicyType: SimpleScaling
+      AdjustmentType: PercentChangeInCapacity
+      ScalingAdjustment: 50
+      MinAdjustmentMagnitude: 1
+      Cooldown: '300'
+
+  {tier}CPUSafetyAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Condition: UseStreamAware
+    Properties:
+      AlarmDescription: >-
+        CPU is high even though the load index did not ask for capacity. The
+        index is only as good as the capacity table behind it, so this
+        catches workloads it has not anticipated.
+      Namespace: AWS/EC2
+      MetricName: CPUUtilization
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref {group}
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 3
+      Threshold: 75
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref {tier}CPUSafetyPolicy
+
+  {tier}GPUSafetyAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Condition: UseStreamAware
+    Properties:
+      AlarmDescription: >-
+        GPU encoder utilisation is high. Not decoration: on a g5.4xlarge the
+        encoder saturates at twelve transcoded 1080p streams while CPU reads
+        15 to 20 percent, so a CPU alarm alone would never fire on that
+        hardware. Published by the collector, which reads nvidia-smi.
+      Namespace: AntMedia/Scaling
+      MetricName: GPUEncoderUtilization
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref {group}
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 3
+      Threshold: 75
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref {tier}CPUSafetyPolicy
+""".format(tier=tier, group=group_ref)
+
+
+ANCHOR_OUTPUTS = "\nOutputs:\n"
+
+
+def patch(text):
+    steps = []
+
+    text = splice(text, ANCHOR_PARAMS, NEW_PARAMS, "after", "new parameters")
+    steps.append("added ScalingMode, LoadIndexTargetValue, ScaleInThreshold, CollectorUrl")
+
+    text = splice(text, ANCHOR_CONDITIONS, NEW_CONDITIONS, "after", "new conditions")
+    steps.append("added UseCPUScaling, UseStreamAware, InstallCollector conditions")
+
+    text = splice(text, ANCHOR_IAM, NEW_IAM, "before", "IAM role and instance profile")
+    steps.append("added AntMediaNodeRole and AntMediaNodeInstanceProfile "
+                 "(the stock template had no instance profile at all)")
+
+    text = splice(text, ANCHOR_ORIGIN_TAGS, NEW_ORIGIN_METRICS, "after",
+                  "origin group metrics")
+    text = splice(text, ANCHOR_EDGE_TAGS, NEW_EDGE_METRICS, "after",
+                  "edge group metrics")
+    steps.append("enabled 1 minute group metrics on both auto scaling groups")
+
+    text = splice(text, ANCHOR_LT_ORIGIN, NEW_LT_PROFILE, "after",
+                  "origin launch template profile")
+    text = splice(text, ANCHOR_LT_EDGE, NEW_LT_PROFILE, "after",
+                  "edge launch template profile")
+    steps.append("attached the instance profile to both launch templates")
+
+    text = splice(text, ANCHOR_SIGNAL_ORIGIN,
+                  collector_userdata("origin", "OriginGroup"), "before",
+                  "origin collector install")
+    text = splice(text, ANCHOR_SIGNAL_EDGE,
+                  collector_userdata("edge", "EdgeGroup"), "before",
+                  "edge collector install")
+    steps.append("installed the collector from user data on both tiers, "
+                 "in both scaling modes")
+
+    if ANCHOR_ORIGIN_CPU not in text or ANCHOR_EDGE_CPU not in text:
+        raise PatchError("could not find the stock CPU scaling policies")
+    text = text.replace(ANCHOR_ORIGIN_CPU, REPLACE_ORIGIN_CPU)
+    text = text.replace(ANCHOR_EDGE_CPU, REPLACE_EDGE_CPU)
+    steps.append("made the stock CPU policies conditional on ScalingMode=CPU")
+
+    block = (stream_aware_block("Origin", "OriginGroup")
+             + stream_aware_block("Edge", "EdgeGroup"))
+    text = splice(text, ANCHOR_OUTPUTS, block, "before", "stream aware policies")
+    steps.append("added load index target tracking, slow scale in, and CPU "
+                 "and GPU safety alarms for both tiers")
+
+    return text, steps
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("stock", help="the stock Ant Media template")
+    ap.add_argument("-o", "--out", default="ams-cluster-streamaware.yaml")
+    args = ap.parse_args()
+
+    with open(args.stock) as fh:
+        original = fh.read()
+
+    try:
+        patched, steps = patch(original)
+    except PatchError as exc:
+        print("PATCH FAILED\n\n%s" % exc, file=sys.stderr)
+        return 1
+
+    with open(args.out, "w") as fh:
+        fh.write(patched)
+
+    print("wrote %s" % args.out)
+    print("  %d lines in, %d lines out, %d added"
+          % (original.count("\n"), patched.count("\n"),
+             patched.count("\n") - original.count("\n")))
+    print()
+    for i, s in enumerate(steps, 1):
+        print("  %d. %s" % (i, s))
+    print()
+    print("Nothing was removed. With ScalingMode=CPU the stack behaves")
+    print("exactly as the stock template does.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
