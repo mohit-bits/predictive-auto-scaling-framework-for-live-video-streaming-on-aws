@@ -1,0 +1,21 @@
+# Credentials and keys
+*.pem
+*.key
+.env
+.env.*
+
+# Claude Code scratch space
+scratchpad/
+
+# Load test spreadsheets are Ant Media's internal results and stay out of
+# this repository
+*.xlsx
+*.xls
+*.ods
+*.csv
+# except the simulator's own output
+!simulator/results/*.csv
+
+# Python
+__pycache__/
+*.pyc
