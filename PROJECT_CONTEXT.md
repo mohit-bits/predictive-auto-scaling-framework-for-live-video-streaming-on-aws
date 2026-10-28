@@ -204,6 +204,11 @@ instance metric.
 * Explain changes in plain language. This is examined work and has to be
   defended in a viva by the author, so nothing should land in the repository
   that he cannot explain himself.
-* Region is ap-south-1. All tests so far were on standalone servers, not
-  clusters, which is why the cluster behaviour above is still an open
-  question.
+* Region is ap-south-1. The capacity figures come from standalone servers;
+  the field semantics and cluster measurements come from a two tier cluster
+  tested on 27 October 2026. A cluster side check supports the standalone
+  figures carrying over: 20 WebRTC viewers on a c5.xlarge edge used about
+  12.9 percent of the box, against 13.8 percent predicted by the standalone
+  table. What remains untested is behaviour with more than one edge, and the
+  deployed template itself, which has not yet been built on real
+  infrastructure.
