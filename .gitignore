@@ -19,3 +19,6 @@ scratchpad/
 # Python
 __pycache__/
 *.pyc
+
+# Local Claude Code instructions; the project context is in PROJECT_CONTEXT.md
+CLAUDE.md

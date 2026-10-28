@@ -42,7 +42,7 @@ results themselves are not included in this repository.**
 | `cloudformation/ams-cluster-streamaware.yaml` | The patched template that `patch_template.py` produces. |
 | `simulator/` | Offline model comparing the CPU policy with the load index policy, using the measured capacity figures. Its own README explains the model, assumptions and results. `results/` holds the CSV time series and charts. |
 | `measurements/` | Observations from a live two tier cluster, including the tests that showed which AMS counts are node-local. |
-| `CLAUDE.md` | Working notes on the project context, used with Claude Code. |
+| `PROJECT_CONTEXT.md` | Working reference: the measured figures, the decisions taken and the questions still open. |
 
 ## The collector
 

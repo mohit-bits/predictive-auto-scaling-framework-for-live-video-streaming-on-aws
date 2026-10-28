@@ -1,5 +1,9 @@
 # Project context
 
+Working reference for the implementation. Captures the measured figures,
+the decisions taken and the questions still open, so the design rationale
+is recorded alongside the code rather than only in the dissertation.
+
 M.Tech dissertation, BITS Pilani WILP. Final submission 10 November 2026.
 
 Title: Predictive Auto-Scaling Framework for Live Video Streaming on AWS.
