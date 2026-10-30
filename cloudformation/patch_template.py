@@ -20,8 +20,15 @@ comparable afterwards. It observes; it does not decide.
 
 WHAT IT CHANGES, AND WHY
 
-1. Four new parameters: ScalingMode, LoadIndexTargetValue, ScaleInThreshold
-   and CollectorUrl.
+1. Five new parameters: ScalingMode, LoadIndexTargetValue, ScaleInThreshold,
+   CollectorUrl and DetailedMonitoring.
+
+   DetailedMonitoring defaults to false, which is what the stock template
+   does, so its CPU policy acts on five minute CPU data. Comparison runs set
+   it to true on both modes, so the CPU policy gets one minute data and the
+   comparison is about the signal rather than the sampling interval. A real
+   deployment of the stock template would therefore do worse than the CPU
+   results measured that way.
 
 2. An IAM role and instance profile. The stock template creates no instance
    profile at all, so a node today has no permission to call PutMetricData
@@ -146,6 +153,18 @@ NEW_PARAMS = """  ScalingMode:
       HTTP(S) URL the nodes fetch ams_metric_collector.py from at boot. Leave
       empty to skip installing the collector, in which case StreamAware mode
       will have no metric to scale on.
+  DetailedMonitoring:
+    Type: String
+    Default: 'false'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: >-
+      EC2 detailed monitoring on every node, so AWS/EC2 CPUUtilization is
+      published every minute instead of every five. The stock template
+      leaves it off, which means its CPU policy acts on five minute data.
+      Turn it on when comparing the two modes, so the comparison is about
+      the signal and not the sampling interval.
 """
 
 # ---------------------------------------------------------------------------
@@ -257,6 +276,8 @@ ANCHOR_LT_EDGE = """        InstanceType: !Ref EdgeInstanceType
 
 NEW_LT_PROFILE = """        IamInstanceProfile:
           Arn: !GetAtt AntMediaNodeInstanceProfile.Arn
+        Monitoring:
+          Enabled: !Ref DetailedMonitoring
 """
 
 # ---------------------------------------------------------------------------
@@ -521,7 +542,8 @@ def patch(text):
     steps = []
 
     text = splice(text, ANCHOR_PARAMS, NEW_PARAMS, "after", "new parameters")
-    steps.append("added ScalingMode, LoadIndexTargetValue, ScaleInThreshold, CollectorUrl")
+    steps.append("added ScalingMode, LoadIndexTargetValue, ScaleInThreshold, CollectorUrl, "
+                 "DetailedMonitoring")
 
     text = splice(text, ANCHOR_CONDITIONS, NEW_CONDITIONS, "after", "new conditions")
     steps.append("added UseCPUScaling, UseStreamAware, InstallCollector conditions")
@@ -540,7 +562,8 @@ def patch(text):
                   "origin launch template profile")
     text = splice(text, ANCHOR_LT_EDGE, NEW_LT_PROFILE, "after",
                   "edge launch template profile")
-    steps.append("attached the instance profile to both launch templates")
+    steps.append("attached the instance profile and the DetailedMonitoring "
+                 "switch to both launch templates")
 
     text = splice(text, ANCHOR_SIGNAL_ORIGIN,
                   collector_userdata("origin"), "before",

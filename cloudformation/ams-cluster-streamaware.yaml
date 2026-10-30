@@ -281,6 +281,18 @@ Parameters:
       HTTP(S) URL the nodes fetch ams_metric_collector.py from at boot. Leave
       empty to skip installing the collector, in which case StreamAware mode
       will have no metric to scale on.
+  DetailedMonitoring:
+    Type: String
+    Default: 'false'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: >-
+      EC2 detailed monitoring on every node, so AWS/EC2 CPUUtilization is
+      published every minute instead of every five. The stock template
+      leaves it off, which means its CPU policy acts on five minute data.
+      Turn it on when comparing the two modes, so the comparison is about
+      the signal and not the sampling interval.
   LoadBalancerCertificateArn:
     Description: 'Amazon Resource Name (ARN) of the certificate to associate with the load balancer. If you do not have the SSL certificate, please check this guide: https://antmedia.io/ant-media-server-cloudformation-installation/ '
     Type: String
@@ -666,6 +678,8 @@ Resources:
         KeyName: !Ref KeyName
         IamInstanceProfile:
           Arn: !GetAtt AntMediaNodeInstanceProfile.Arn
+        Monitoring:
+          Enabled: !Ref DetailedMonitoring
         ImageId: !If [UseGPUImage, !Ref AntMediaGPUAmi, !Ref AntMediaAmi]
         SecurityGroupIds:
           - !GetAtt "InstanceSecurityGroup.GroupId"
@@ -788,6 +802,8 @@ Resources:
         KeyName: !Ref KeyName
         IamInstanceProfile:
           Arn: !GetAtt AntMediaNodeInstanceProfile.Arn
+        Monitoring:
+          Enabled: !Ref DetailedMonitoring
         ImageId: !Ref AntMediaAmi
         SecurityGroupIds:
           - !GetAtt "InstanceSecurityGroup.GroupId"
