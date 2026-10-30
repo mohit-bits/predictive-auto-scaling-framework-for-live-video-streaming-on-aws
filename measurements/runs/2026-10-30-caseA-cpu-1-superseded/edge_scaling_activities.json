@@ -1,0 +1,64 @@
+{
+    "Activities": [
+        {
+            "ActivityId": "dd206cbf-6da6-416f-9c53-97aac6c1d42f",
+            "AutoScalingGroupName": "mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd",
+            "Description": "Terminating EC2 instance: edge-3",
+            "Cause": "At 2026-10-30T18:28:07Z a monitor alarm TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmLow-d0ca41eb-729c-4b83-b713-3b6082f451b1 in state ALARM triggered policy mohit-streamaware-test-EdgeCPUPolicy-oB4K0ybfodGo changing the desired capacity from 2 to 1.  At 2026-10-30T18:28:08Z an instance was taken out of service in response to a difference between desired and actual capacity, shrinking the capacity from 2 to 1.  At 2026-10-30T18:28:08Z instance edge-3 was selected for termination.",
+            "StartTime": "2026-10-30T18:28:08.953000+00:00",
+            "EndTime": "2026-10-30T18:33:51+00:00",
+            "StatusCode": "Successful",
+            "Progress": 100,
+            "Details": "{\"Availability Zone ID\":\"aps1-az3\",\"Subnet ID\":\"<subnet-edge>\",\"Availability Zone\":\"ap-south-1b\",\"InvokingAlarms\":[{\"AlarmArn\":\"arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmLow-d0ca41eb-729c-4b83-b713-3b6082f451b1\",\"Trigger\":{\"MetricName\":\"CPUUtilization\",\"EvaluateLowSampleCountPercentile\":\"\",\"ComparisonOperator\":\"LessThanThreshold\",\"TreatMissingData\":\"\",\"Statistic\":\"AVERAGE\",\"StatisticType\":\"Statistic\",\"Period\":60,\"EvaluationPeriods\":15,\"Unit\":null,\"Namespace\":\"AWS/EC2\",\"Threshold\":42},\"AlarmName\":\"TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmLow-d0ca41eb-729c-4b83-b713-3b6082f451b1\",\"AlarmDescription\":\"DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:191d8c87-a01a-49b5-ad52-1585c912aaf7:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd:policyName/mohit-streamaware-test-Ed\",\"AWSAccountId\":\"<account-id>\",\"OldStateValue\":\"ALARM\",\"Region\":\"Asia Pacific (Mumbai)\",\"NewStateValue\":\"ALARM\",\"AlarmConfigurationUpdatedTimestamp\":1793381799840,\"StateChangeTime\":1793384287574}]}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:66f20cb8-16a8-46b8-bcdd-6f7879c9ada7:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd"
+        },
+        {
+            "ActivityId": "bae01ca0-3ae7-442d-949b-0b0c8a28ee98",
+            "AutoScalingGroupName": "mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd",
+            "Description": "Terminating EC2 instance: edge-2",
+            "Cause": "At 2026-10-30T18:22:07Z a monitor alarm TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmLow-d0ca41eb-729c-4b83-b713-3b6082f451b1 in state ALARM triggered policy mohit-streamaware-test-EdgeCPUPolicy-oB4K0ybfodGo changing the desired capacity from 3 to 2.  At 2026-10-30T18:22:14Z an instance was taken out of service in response to a difference between desired and actual capacity, shrinking the capacity from 3 to 2.  At 2026-10-30T18:22:14Z instance edge-2 was selected for termination.",
+            "StartTime": "2026-10-30T18:22:14.328000+00:00",
+            "EndTime": "2026-10-30T18:27:56+00:00",
+            "StatusCode": "Successful",
+            "Progress": 100,
+            "Details": "{\"Availability Zone ID\":\"aps1-az3\",\"Subnet ID\":\"<subnet-edge>\",\"Availability Zone\":\"ap-south-1b\",\"InvokingAlarms\":[{\"AlarmArn\":\"arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmLow-d0ca41eb-729c-4b83-b713-3b6082f451b1\",\"Trigger\":{\"MetricName\":\"CPUUtilization\",\"EvaluateLowSampleCountPercentile\":\"\",\"ComparisonOperator\":\"LessThanThreshold\",\"TreatMissingData\":\"\",\"Statistic\":\"AVERAGE\",\"StatisticType\":\"Statistic\",\"Period\":60,\"EvaluationPeriods\":15,\"Unit\":null,\"Namespace\":\"AWS/EC2\",\"Threshold\":42},\"AlarmName\":\"TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmLow-d0ca41eb-729c-4b83-b713-3b6082f451b1\",\"AlarmDescription\":\"DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:191d8c87-a01a-49b5-ad52-1585c912aaf7:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd:policyName/mohit-streamaware-test-Ed\",\"AWSAccountId\":\"<account-id>\",\"OldStateValue\":\"ALARM\",\"Region\":\"Asia Pacific (Mumbai)\",\"NewStateValue\":\"ALARM\",\"AlarmConfigurationUpdatedTimestamp\":1793381799840,\"StateChangeTime\":1793384287574}]}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:66f20cb8-16a8-46b8-bcdd-6f7879c9ada7:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd"
+        },
+        {
+            "ActivityId": "55868637-e4e2-d758-8fe2-69dcb74e3a9e",
+            "AutoScalingGroupName": "mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd",
+            "Description": "Launching a new EC2 instance: edge-3",
+            "Cause": "At 2026-10-30T18:01:13Z a monitor alarm TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmHigh-200512f3-d715-46fc-8671-c36f86db64bd in state ALARM triggered policy mohit-streamaware-test-EdgeCPUPolicy-oB4K0ybfodGo changing the desired capacity from 2 to 3.  At 2026-10-30T18:01:21Z an instance was started in response to a difference between desired and actual capacity, increasing the capacity from 2 to 3.",
+            "StartTime": "2026-10-30T18:01:22.869000+00:00",
+            "EndTime": "2026-10-30T18:06:27+00:00",
+            "StatusCode": "Successful",
+            "Progress": 100,
+            "Details": "{\"Availability Zone ID\":\"aps1-az3\",\"Subnet ID\":\"<subnet-edge>\",\"Availability Zone\":\"ap-south-1b\",\"InvokingAlarms\":[{\"AlarmArn\":\"arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmHigh-200512f3-d715-46fc-8671-c36f86db64bd\",\"Trigger\":{\"MetricName\":\"CPUUtilization\",\"EvaluateLowSampleCountPercentile\":\"\",\"ComparisonOperator\":\"GreaterThanThreshold\",\"TreatMissingData\":\"\",\"Statistic\":\"AVERAGE\",\"StatisticType\":\"Statistic\",\"Period\":60,\"EvaluationPeriods\":3,\"Unit\":null,\"Namespace\":\"AWS/EC2\",\"Threshold\":60},\"AlarmName\":\"TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmHigh-200512f3-d715-46fc-8671-c36f86db64bd\",\"AlarmDescription\":\"DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:191d8c87-a01a-49b5-ad52-1585c912aaf7:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd:policyName/mohit-streamaware-test-Ed\",\"AWSAccountId\":\"<account-id>\",\"OldStateValue\":\"ALARM\",\"Region\":\"Asia Pacific (Mumbai)\",\"NewStateValue\":\"ALARM\",\"AlarmConfigurationUpdatedTimestamp\":1793380884630,\"StateChangeTime\":1793382913482}]}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:66f20cb8-16a8-46b8-bcdd-6f7879c9ada7:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd"
+        },
+        {
+            "ActivityId": "c1168637-ceaa-369b-d82e-9e8163202170",
+            "AutoScalingGroupName": "mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd",
+            "Description": "Launching a new EC2 instance: edge-2",
+            "Cause": "At 2026-10-30T17:55:13Z a monitor alarm TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmHigh-200512f3-d715-46fc-8671-c36f86db64bd in state ALARM triggered policy mohit-streamaware-test-EdgeCPUPolicy-oB4K0ybfodGo changing the desired capacity from 1 to 2.  At 2026-10-30T17:55:17Z an instance was started in response to a difference between desired and actual capacity, increasing the capacity from 1 to 2.",
+            "StartTime": "2026-10-30T17:55:18.797000+00:00",
+            "EndTime": "2026-10-30T18:00:23+00:00",
+            "StatusCode": "Successful",
+            "Progress": 100,
+            "Details": "{\"Availability Zone ID\":\"aps1-az3\",\"Subnet ID\":\"<subnet-edge>\",\"Availability Zone\":\"ap-south-1b\",\"InvokingAlarms\":[{\"AlarmArn\":\"arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmHigh-200512f3-d715-46fc-8671-c36f86db64bd\",\"Trigger\":{\"MetricName\":\"CPUUtilization\",\"EvaluateLowSampleCountPercentile\":\"\",\"ComparisonOperator\":\"GreaterThanThreshold\",\"TreatMissingData\":\"\",\"Statistic\":\"AVERAGE\",\"StatisticType\":\"Statistic\",\"Period\":60,\"EvaluationPeriods\":3,\"Unit\":null,\"Namespace\":\"AWS/EC2\",\"Threshold\":60},\"AlarmName\":\"TargetTracking-mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd-AlarmHigh-200512f3-d715-46fc-8671-c36f86db64bd\",\"AlarmDescription\":\"DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:191d8c87-a01a-49b5-ad52-1585c912aaf7:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd:policyName/mohit-streamaware-test-Ed\",\"AWSAccountId\":\"<account-id>\",\"OldStateValue\":\"OK\",\"Region\":\"Asia Pacific (Mumbai)\",\"NewStateValue\":\"ALARM\",\"AlarmConfigurationUpdatedTimestamp\":1793380884630,\"StateChangeTime\":1793382913482}]}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:66f20cb8-16a8-46b8-bcdd-6f7879c9ada7:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd"
+        },
+        {
+            "ActivityId": "9d568637-525f-d071-5725-5d3a7f626a5e",
+            "AutoScalingGroupName": "mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd",
+            "Description": "Launching a new EC2 instance: edge-1",
+            "Cause": "At 2026-10-30T17:21:18Z a user request update of AutoScalingGroup constraints to min: 1, max: 3, desired: 1 changing the desired capacity from 0 to 1.  At 2026-10-30T17:21:20Z an instance was started in response to a difference between desired and actual capacity, increasing the capacity from 0 to 1.",
+            "StartTime": "2026-10-30T17:21:22.420000+00:00",
+            "EndTime": "2026-10-30T17:21:27+00:00",
+            "StatusCode": "Successful",
+            "Progress": 100,
+            "Details": "{\"Availability Zone ID\":\"aps1-az3\",\"Subnet ID\":\"<subnet-edge>\",\"Availability Zone\":\"ap-south-1b\"}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:66f20cb8-16a8-46b8-bcdd-6f7879c9ada7:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-QjwGF1WgnGAd"
+        }
+    ]
+}
