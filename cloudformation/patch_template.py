@@ -293,6 +293,12 @@ def collector_userdata(role, group_resource=None):
 
             [Service]
             Type=simple
+            # Without this Python buffers stdout in blocks when it is a
+            # journald socket, so per cycle lines do not appear until the
+            # buffer fills. Observed on the first real build: nine cycles in,
+            # the journal still held one line. Errors came through, because
+            # stderr is not buffered, but the routine output did not.
+            Environment=PYTHONUNBUFFERED=1
             ExecStart=/usr/bin/python3 /opt/ams-collector/ams_metric_collector.py --role ROLE_PLACEHOLDER --interval 60
             Restart=always
             RestartSec=30
