@@ -67,6 +67,15 @@ The SRT figures for c5.4xlarge and c5.9xlarge were capped by the test harness
 at 100. They are lower bounds, not saturation points. Never treat them as
 measured capacity.
 
+**The playback and ingest figures are on different bases.** The WebRTC
+playback capacities were measured with a 1080p source at 2500 kbps. The
+ingest capacities were measured at 2000 kbps. Cost per viewer scales with
+bitrate, so a viewer count from the playback table only applies to a 2500
+kbps source. Confirmed live on 30 October 2026: a c5.xlarge edge serving a
+2000 kbps source held about 130 viewers at the CPU the table gives for 105,
+against 131 predicted by scaling the bitrate. Any test compared against the
+playback table must publish at 2500 kbps, or scale the capacity figure.
+
 Transcoding collapses this. On c5.xlarge, 35 plain RTMP streams becomes 2 with
 a single 1080p rendition and 1 with four renditions.
 

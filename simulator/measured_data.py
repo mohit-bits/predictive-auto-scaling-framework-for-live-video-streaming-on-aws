@@ -58,7 +58,36 @@ VCPU = {
 # WebRTC playback capacity, viewers per node
 # Source: WebRTC_PLAYBACK_LOAD_TEST.xlsx, Sheet1
 # All rows recorded at 70-75 percent CPU.
+#
+# IMPORTANT, AND EASY TO GET WRONG: these playback figures were measured with
+# a 1080p source at 2500 kbps. The ingest figures elsewhere in this file were
+# measured at 2000 kbps. The two sets are NOT on the same basis and a viewer
+# count from this table only applies to a 2500 kbps source.
+#
+# Cost per viewer scales with bitrate, so the capacity does too. Confirmed on
+# a live cluster on 30 October 2026: a c5.xlarge edge serving a 2000 kbps
+# source held about 130 viewers at the CPU this table gives for 105. The
+# prediction from scaling the bitrate is 105 * 2500/2000 = 131.
+#
+# So when comparing against this table, either publish at 2500 kbps or scale
+# the capacity figure by 2500/source_bitrate. Mixing the two silently
+# overstates capacity by about a quarter.
 # ---------------------------------------------------------------------------
+
+PLAYBACK_SOURCE_BITRATE_KBPS = 2500     # basis for WEBRTC_PLAYBACK_CAPACITY
+INGEST_SOURCE_BITRATE_KBPS = 2000       # basis for the ingest tables
+
+
+def playback_capacity_at_bitrate(instance, resolution, bitrate_kbps):
+    """
+    Scale a measured playback capacity to a different source bitrate.
+
+    Linear in bitrate, which matched observation to within one percent at
+    2000 kbps. Only validated at that one point, so treat it as a correction
+    for nearby bitrates rather than a general law.
+    """
+    base = WEBRTC_PLAYBACK_CAPACITY[instance][resolution]
+    return base * PLAYBACK_SOURCE_BITRATE_KBPS / float(bitrate_kbps)
 
 WEBRTC_PLAYBACK_CAPACITY = {
     # instance        1080p 720p  480p  360p        source rows
