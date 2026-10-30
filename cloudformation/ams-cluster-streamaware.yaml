@@ -661,13 +661,6 @@ Resources:
           MaxBatchSize: '1'
           PauseTime: PT15M
           WaitOnResourceSignals: 'true'
-        NotificationConfiguration:
-          TopicARN: !Ref NotificationTopic
-          NotificationTypes:
-            - 'autoscaling:EC2_INSTANCE_LAUNCH'
-            - 'autoscaling:EC2_INSTANCE_LAUNCH_ERROR'
-            - 'autoscaling:EC2_INSTANCE_TERMINATE'
-            - 'autoscaling:EC2_INSTANCE_TERMINATE_ERROR'
 
   LaunchTemplateOrigin:
     Type: 'AWS::EC2::LaunchTemplate'
@@ -785,13 +778,6 @@ Resources:
         MaxBatchSize: '1'
         PauseTime: PT15M
         WaitOnResourceSignals: 'true'
-      NotificationConfiguration:
-          TopicARN: !Ref NotificationTopic
-          NotificationTypes:
-            - 'autoscaling:EC2_INSTANCE_LAUNCH'
-            - 'autoscaling:EC2_INSTANCE_LAUNCH_ERROR'
-            - 'autoscaling:EC2_INSTANCE_TERMINATE'
-            - 'autoscaling:EC2_INSTANCE_TERMINATE_ERROR'
 
   LaunchTemplateEdge:
     Type: 'AWS::EC2::LaunchTemplate'

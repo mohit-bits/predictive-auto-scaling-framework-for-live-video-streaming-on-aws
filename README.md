@@ -111,11 +111,22 @@ so the patch can be reproduced:
 The output is byte for byte identical to the committed
 `ams-cluster-streamaware.yaml`.
 
-The script prints each change it made. All the changes are additions. With
-`ScalingMode=CPU` the stack behaves as the stock template does. In summary:
+The script prints each change it made. All the changes are additions apart
+from one repair to the stock template. With `ScalingMode=CPU` the stack
+scales as the stock template does. In summary:
+
+* A repair: the stock template nests `NotificationConfiguration` under
+  `UpdatePolicy` on both auto scaling groups. CloudFormation ignores it at
+  creation, so its scaling notifications were never applied, and rejects it on
+  the first update that touches a group, so the stack cannot be updated without
+  a rollback. The block is removed, not moved. See
+  `measurements/2026-10-30-stock-template-findings.md`.
+* `DetailedMonitoring` (default `false`, as stock): one minute EC2
+  monitoring on every node, used for comparison runs so the CPU policy is
+  not disadvantaged by five minute data.
 
 * New parameters: `ScalingMode`, `LoadIndexTargetValue` (default 0.70),
-  `ScaleInThreshold` (default 0.35) and `CollectorUrl`.
+  `ScaleInThreshold` (default 0.35), `CollectorUrl` and `DetailedMonitoring`.
 * An IAM role and instance profile, so nodes can call `PutMetricData`.
 * Group metrics collection on both auto scaling groups.
 * User data that downloads the collector from `CollectorUrl` and installs it

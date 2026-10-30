@@ -8,7 +8,8 @@ today, or on the capacity weighted load index built for this dissertation.
 
     python3 patch_template.py STOCK.yaml -o ams-cluster-streamaware.yaml
 
-Every change is additive: nothing in the stock template is removed.
+Every change is additive except one repair (item 0 below), which removes a
+misplaced block that CloudFormation never applied.
 
 With ScalingMode left at CPU, scaling behaviour is identical to the stock
 template, because the same CPU target tracking policy is the only thing
@@ -19,6 +20,28 @@ run too, because its load index trace is what makes the two modes
 comparable afterwards. It observes; it does not decide.
 
 WHAT IT CHANGES, AND WHY
+
+0. A repair to the stock template. Both auto scaling groups carry a
+   NotificationConfiguration nested under UpdatePolicy, which is not a valid
+   place for it. CloudFormation ignores UpdatePolicy when a stack is created,
+   so the mistake is invisible at first. The first stack update that touches
+   either group makes CloudFormation read UpdatePolicy, and it rejects the
+   key: "Encountered unsupported property NotificationConfiguration", then
+   rolls back. Observed on 30 October 2026 when a launch template change was
+   applied to a running stack.
+
+   Two consequences. No deployment of the stock template can be updated
+   through a group change without a rollback. And its scaling notifications
+   have never been applied: both groups of a stack built from it reported
+   zero notification configurations.
+
+   The block is removed, not moved to the group's Properties. Moving it would
+   switch on email notifications that have never worked, which is a change in
+   behaviour, not a repair. After removal the stack does exactly what it did
+   before, and can now be updated. That matters for this design in
+   particular: switching ScalingMode by stack update is how the two modes are
+   meant to be compared. The NotificationTopic resource itself is left in
+   place, unchanged.
 
 1. Five new parameters: ScalingMode, LoadIndexTargetValue, ScaleInThreshold,
    CollectorUrl and DetailedMonitoring.
@@ -106,6 +129,43 @@ def splice(text, anchor, addition, where="after", label=""):
     if where == "after":
         return text.replace(anchor, anchor + addition)
     return text.replace(anchor, addition + anchor)
+
+
+def remove(text, block, label=""):
+    """Delete block, failing loudly unless it occurs exactly once."""
+    count = text.count(block)
+    if count != 1:
+        raise PatchError(
+            "expected exactly one match for %s, found %d.\nLooked for:\n%s"
+            % (label, count, block))
+    return text.replace(block, "")
+
+
+# ---------------------------------------------------------------------------
+# 0. Repair: NotificationConfiguration misplaced under UpdatePolicy
+#
+#    The two copies are indented differently in the stock template, so each
+#    is matched exactly. See item 0 in the docstring for why it is removed
+#    rather than moved.
+# ---------------------------------------------------------------------------
+
+MISPLACED_NOTIFY_ORIGIN = """        NotificationConfiguration:
+          TopicARN: !Ref NotificationTopic
+          NotificationTypes:
+            - 'autoscaling:EC2_INSTANCE_LAUNCH'
+            - 'autoscaling:EC2_INSTANCE_LAUNCH_ERROR'
+            - 'autoscaling:EC2_INSTANCE_TERMINATE'
+            - 'autoscaling:EC2_INSTANCE_TERMINATE_ERROR'
+"""
+
+MISPLACED_NOTIFY_EDGE = """      NotificationConfiguration:
+          TopicARN: !Ref NotificationTopic
+          NotificationTypes:
+            - 'autoscaling:EC2_INSTANCE_LAUNCH'
+            - 'autoscaling:EC2_INSTANCE_LAUNCH_ERROR'
+            - 'autoscaling:EC2_INSTANCE_TERMINATE'
+            - 'autoscaling:EC2_INSTANCE_TERMINATE_ERROR'
+"""
 
 
 # ---------------------------------------------------------------------------
@@ -541,6 +601,11 @@ ANCHOR_OUTPUTS = "\nOutputs:\n"
 def patch(text):
     steps = []
 
+    text = remove(text, MISPLACED_NOTIFY_ORIGIN, "origin NotificationConfiguration")
+    text = remove(text, MISPLACED_NOTIFY_EDGE, "edge NotificationConfiguration")
+    steps.append("repaired the stock template: removed NotificationConfiguration "
+                 "misplaced under UpdatePolicy on both groups")
+
     text = splice(text, ANCHOR_PARAMS, NEW_PARAMS, "after", "new parameters")
     steps.append("added ScalingMode, LoadIndexTargetValue, ScaleInThreshold, CollectorUrl, "
                  "DetailedMonitoring")
@@ -615,10 +680,11 @@ def main():
     for i, s in enumerate(steps, 1):
         print("  %d. %s" % (i, s))
     print()
-    print("Nothing was removed. With ScalingMode=CPU the scaling behaviour")
-    print("is identical to the stock template: the same CPU target tracking")
-    print("policy is the only thing deciding capacity. The stack also carries")
-    print("the instance profile and the collector, which only observe.")
+    print("The only removal is the misplaced NotificationConfiguration, which")
+    print("CloudFormation never applied. With ScalingMode=CPU the scaling")
+    print("behaviour is identical to the stock template: the same CPU target")
+    print("tracking policy is the only thing deciding capacity. The stack also")
+    print("carries the instance profile and the collector, which only observe.")
     return 0
 
 
