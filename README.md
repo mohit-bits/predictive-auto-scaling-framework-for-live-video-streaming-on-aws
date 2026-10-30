@@ -40,6 +40,7 @@ results themselves are not included in this repository.**
 | `ams_metric_collector.py` | Runs on each AMS node. Reads node-local stream and viewer counts, CPU and GPU, computes the load index, and publishes it to CloudWatch. |
 | `cloudformation/patch_template.py` | Takes Ant Media's stock auto scaling template and writes a patched copy with the `ScalingMode` parameter and the stream aware policies added. |
 | `cloudformation/ams-cluster-streamaware.yaml` | The patched template that `patch_template.py` produces. |
+| `cloudformation/antmedia-aws-autoscale-template.yaml` | Ant Media's stock auto scaling template, the input to `patch_template.py`. |
 | `simulator/` | Offline model comparing the CPU policy with the load index policy, using the measured capacity figures. Its own README explains the model, assumptions and results. `results/` holds the CSV time series and charts. |
 | `measurements/` | Observations from a live two tier cluster, including the tests that showed which AMS counts are node-local. |
 | `PROJECT_CONTEXT.md` | Working reference: the measured figures, the decisions taken and the questions still open. |
@@ -100,10 +101,15 @@ Outside an auto scaling group the collector publishes under the group name
 ## Applying the patch to the stock template
 
 `patch_template.py` takes Ant Media's reference auto scaling CloudFormation
-template as input. The stock template is not included here. Download it from
-Ant Media, then:
+template as input. A copy of the stock template, as published in Ant Media's
+documentation, is included as `cloudformation/antmedia-aws-autoscale-template.yaml`
+so the patch can be reproduced:
 
-    python3 cloudformation/patch_template.py STOCK.yaml -o ams-cluster-streamaware.yaml
+    cd cloudformation
+    python3 patch_template.py antmedia-aws-autoscale-template.yaml -o ams-cluster-streamaware.yaml
+
+The output is byte for byte identical to the committed
+`ams-cluster-streamaware.yaml`.
 
 The script prints each change it made. All the changes are additions. With
 `ScalingMode=CPU` the stack behaves as the stock template does. In summary:

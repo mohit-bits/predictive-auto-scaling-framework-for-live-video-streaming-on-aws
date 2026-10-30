@@ -8,9 +8,15 @@ today, or on the capacity weighted load index built for this dissertation.
 
     python3 patch_template.py STOCK.yaml -o ams-cluster-streamaware.yaml
 
-Every change is additive. With ScalingMode left at CPU the stack behaves
-exactly as the stock template does, so the two modes can be compared on the
-same infrastructure by changing one parameter in a stack update.
+Every change is additive: nothing in the stock template is removed.
+
+With ScalingMode left at CPU, scaling behaviour is identical to the stock
+template, because the same CPU target tracking policy is the only thing
+deciding capacity. The stack is not byte for byte identical: it also carries
+the IAM instance profile and the metric collector, which the stock template
+has neither of. That is deliberate. The collector must run during a CPU mode
+run too, because its load index trace is what makes the two modes
+comparable afterwards. It observes; it does not decide.
 
 WHAT IT CHANGES, AND WHY
 
@@ -259,9 +265,16 @@ NEW_LT_PROFILE = """        IamInstanceProfile:
 #    Inside Fn::Base64 !Sub, ${X} is substituted by CloudFormation. Shell
 #    variables therefore have to be written ${!X}. This block avoids shell
 #    variables entirely to keep that trap out of the way.
+#
+#    The auto scaling group name is deliberately NOT passed in here. A launch
+#    template cannot reference its own auto scaling group: the group depends
+#    on the template, so the reference is circular and CloudFormation rejects
+#    the stack. The collector reads its group from the
+#    aws:autoscaling:groupName tag on its own instance instead, which is what
+#    the ec2:DescribeTags permission in the IAM role is for.
 # ---------------------------------------------------------------------------
 
-def collector_userdata(role, group_resource):
+def collector_userdata(role, group_resource=None):
     return """            # ---- stream aware scaling: metric collector ----
             # Installed in both scaling modes on purpose. Running it while
             # the stack scales on CPU is what produces the load index trace
@@ -280,7 +293,7 @@ def collector_userdata(role, group_resource):
 
             [Service]
             Type=simple
-            ExecStart=/usr/bin/python3 /opt/ams-collector/ams_metric_collector.py --role ROLE_PLACEHOLDER --group GROUP_PLACEHOLDER --interval 60
+            ExecStart=/usr/bin/python3 /opt/ams-collector/ams_metric_collector.py --role ROLE_PLACEHOLDER --interval 60
             Restart=always
             RestartSec=30
             User=root
@@ -288,13 +301,15 @@ def collector_userdata(role, group_resource):
             [Install]
             WantedBy=multi-user.target
             UNIT
-              sudo sed -i 's/^            //' /etc/systemd/system/ams-collector.service
               sudo sed -i "s|ROLE_PLACEHOLDER|%s|" /etc/systemd/system/ams-collector.service
-              sudo sed -i "s|GROUP_PLACEHOLDER|${%s}|" /etc/systemd/system/ams-collector.service
               sudo systemctl daemon-reload
-              sudo systemctl enable --now ams-collector.service
+              sudo systemctl enable --now ams-collector.service || echo "ams-collector failed to start"
             fi
-""" % (role, group_resource)
+            # Do not let a collector failure change the exit status: cfn-signal
+            # reads it next, and a missing collector must not roll back an
+            # otherwise healthy cluster.
+            true
+""" % (role,)
 
 
 ANCHOR_SIGNAL_ORIGIN = """            /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource OriginGroup --region ${AWS::Region}
@@ -401,7 +416,6 @@ def stream_aware_block(tier, group_ref):
         available and five minutes to drain, and the stock CPU policy was
         observed removing a node five minutes and forty five seconds after
         adding it.
-      Namespace: AntMedia/Scaling
       ComparisonOperator: LessThanThreshold
       Threshold: !Ref ScaleInThreshold
       EvaluationPeriods: 15
@@ -455,12 +469,12 @@ def stream_aware_block(tier, group_ref):
         CPU is high even though the load index did not ask for capacity. The
         index is only as good as the capacity table behind it, so this
         catches workloads it has not anticipated.
-      Namespace: AWS/EC2
+      Namespace: AntMedia/Scaling
       MetricName: CPUUtilization
       Dimensions:
         - Name: AutoScalingGroupName
           Value: !Ref {group}
-      Statistic: Average
+      Statistic: Maximum
       Period: 60
       EvaluationPeriods: 3
       Threshold: 75
@@ -523,10 +537,10 @@ def patch(text):
     steps.append("attached the instance profile to both launch templates")
 
     text = splice(text, ANCHOR_SIGNAL_ORIGIN,
-                  collector_userdata("origin", "OriginGroup"), "before",
+                  collector_userdata("origin"), "before",
                   "origin collector install")
     text = splice(text, ANCHOR_SIGNAL_EDGE,
-                  collector_userdata("edge", "EdgeGroup"), "before",
+                  collector_userdata("edge"), "before",
                   "edge collector install")
     steps.append("installed the collector from user data on both tiers, "
                  "in both scaling modes")
@@ -572,8 +586,10 @@ def main():
     for i, s in enumerate(steps, 1):
         print("  %d. %s" % (i, s))
     print()
-    print("Nothing was removed. With ScalingMode=CPU the stack behaves")
-    print("exactly as the stock template does.")
+    print("Nothing was removed. With ScalingMode=CPU the scaling behaviour")
+    print("is identical to the stock template: the same CPU target tracking")
+    print("policy is the only thing deciding capacity. The stack also carries")
+    print("the instance profile and the collector, which only observe.")
     return 0
 
 

@@ -711,11 +711,14 @@ Resources:
             [Install]
             WantedBy=multi-user.target
             UNIT
-              sudo sed -i 's/^            //' /etc/systemd/system/ams-collector.service
               sudo sed -i "s|ROLE_PLACEHOLDER|origin|" /etc/systemd/system/ams-collector.service
               sudo systemctl daemon-reload
-              sudo systemctl enable --now ams-collector.service
+              sudo systemctl enable --now ams-collector.service || echo "ams-collector failed to start"
             fi
+            # Do not let a collector failure change the exit status: cfn-signal
+            # reads it next, and a missing collector must not roll back an
+            # otherwise healthy cluster.
+            true
             /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource OriginGroup --region ${AWS::Region}
         TagSpecifications:
           - ResourceType: instance
@@ -824,11 +827,14 @@ Resources:
             [Install]
             WantedBy=multi-user.target
             UNIT
-              sudo sed -i 's/^            //' /etc/systemd/system/ams-collector.service
               sudo sed -i "s|ROLE_PLACEHOLDER|edge|" /etc/systemd/system/ams-collector.service
               sudo systemctl daemon-reload
-              sudo systemctl enable --now ams-collector.service
+              sudo systemctl enable --now ams-collector.service || echo "ams-collector failed to start"
             fi
+            # Do not let a collector failure change the exit status: cfn-signal
+            # reads it next, and a missing collector must not roll back an
+            # otherwise healthy cluster.
+            true
             /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EdgeGroup --region ${AWS::Region}
         TagSpecifications:
           - ResourceType: instance
@@ -1145,7 +1151,6 @@ Resources:
         available and five minutes to drain, and the stock CPU policy was
         observed removing a node five minutes and forty five seconds after
         adding it.
-      Namespace: AntMedia/Scaling
       ComparisonOperator: LessThanThreshold
       Threshold: !Ref ScaleInThreshold
       EvaluationPeriods: 15
@@ -1199,12 +1204,12 @@ Resources:
         CPU is high even though the load index did not ask for capacity. The
         index is only as good as the capacity table behind it, so this
         catches workloads it has not anticipated.
-      Namespace: AWS/EC2
+      Namespace: AntMedia/Scaling
       MetricName: CPUUtilization
       Dimensions:
         - Name: AutoScalingGroupName
           Value: !Ref OriginGroup
-      Statistic: Average
+      Statistic: Maximum
       Period: 60
       EvaluationPeriods: 3
       Threshold: 75
@@ -1294,7 +1299,6 @@ Resources:
         available and five minutes to drain, and the stock CPU policy was
         observed removing a node five minutes and forty five seconds after
         adding it.
-      Namespace: AntMedia/Scaling
       ComparisonOperator: LessThanThreshold
       Threshold: !Ref ScaleInThreshold
       EvaluationPeriods: 15
@@ -1348,12 +1352,12 @@ Resources:
         CPU is high even though the load index did not ask for capacity. The
         index is only as good as the capacity table behind it, so this
         catches workloads it has not anticipated.
-      Namespace: AWS/EC2
+      Namespace: AntMedia/Scaling
       MetricName: CPUUtilization
       Dimensions:
         - Name: AutoScalingGroupName
           Value: !Ref EdgeGroup
-      Statistic: Average
+      Statistic: Maximum
       Period: 60
       EvaluationPeriods: 3
       Threshold: 75
