@@ -59,10 +59,12 @@ VCPU = {
 # Source: WebRTC_PLAYBACK_LOAD_TEST.xlsx, Sheet1
 # All rows recorded at 70-75 percent CPU.
 #
-# IMPORTANT, AND EASY TO GET WRONG: these playback figures were measured with
-# a 1080p source at 2500 kbps. The ingest figures elsewhere in this file were
-# measured at 2000 kbps. The two sets are NOT on the same basis and a viewer
-# count from this table only applies to a 2500 kbps source.
+# IMPORTANT, AND EASY TO GET WRONG: every row has its own source bitrate, and
+# the playback tests used different bitrates from the ingest tests. See
+# PLAYBACK_BITRATE_KBPS and INGEST_BITRATE_KBPS below. At 1080p the playback
+# source was 2500 kbps against 2000 for ingest; at 720p it was 2000 against
+# 1500. A viewer count from this table only applies at the bitrate it was
+# measured at.
 #
 # Cost per viewer scales with bitrate, so the capacity does too. Confirmed on
 # a live cluster on 30 October 2026: a c5.xlarge edge serving a 2000 kbps
@@ -74,8 +76,26 @@ VCPU = {
 # overstates capacity by about a quarter.
 # ---------------------------------------------------------------------------
 
-PLAYBACK_SOURCE_BITRATE_KBPS = 2500     # basis for WEBRTC_PLAYBACK_CAPACITY
-INGEST_SOURCE_BITRATE_KBPS = 2000       # basis for the ingest tables
+# Source bitrate for every row, read from the "Stream Bitrate" column of each
+# workbook. There is no single figure for a table: the bitrate varies by
+# resolution, AND the playback tests used higher bitrates than the ingest
+# tests at 1080p and 720p. Any capacity figure quoted without its bitrate is
+# meaningless.
+#
+#   resolution   playback tests   ingest tests
+#   1080p        2500 kbps        2000 kbps
+#   720p         2000 kbps        1500 kbps
+#   480p         1000 kbps        1000 kbps
+#   360p          800 kbps         800 kbps
+#
+# Consistent across every instance size in both sets.
+
+PLAYBACK_BITRATE_KBPS = {"1080p": 2500, "720p": 2000, "480p": 1000, "360p": 800}
+INGEST_BITRATE_KBPS = {"1080p": 2000, "720p": 1500, "480p": 1000, "360p": 800}
+
+# Kept for callers that used the old 1080p-only names.
+PLAYBACK_SOURCE_BITRATE_KBPS = PLAYBACK_BITRATE_KBPS["1080p"]
+INGEST_SOURCE_BITRATE_KBPS = INGEST_BITRATE_KBPS["1080p"]
 
 
 def playback_capacity_at_bitrate(instance, resolution, bitrate_kbps):
@@ -87,7 +107,8 @@ def playback_capacity_at_bitrate(instance, resolution, bitrate_kbps):
     for nearby bitrates rather than a general law.
     """
     base = WEBRTC_PLAYBACK_CAPACITY[instance][resolution]
-    return base * PLAYBACK_SOURCE_BITRATE_KBPS / float(bitrate_kbps)
+    measured_at = PLAYBACK_BITRATE_KBPS[resolution]
+    return base * measured_at / float(bitrate_kbps)
 
 WEBRTC_PLAYBACK_CAPACITY = {
     # instance        1080p 720p  480p  360p        source rows
