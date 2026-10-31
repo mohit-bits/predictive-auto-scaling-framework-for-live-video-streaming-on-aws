@@ -645,7 +645,26 @@ def main():
 
         if args.once:
             return
-        time.sleep(args.interval)
+        sleep_to_next_boundary(args.interval)
+
+
+def sleep_to_next_boundary(interval):
+    """
+    Sleep until the next multiple of interval on the wall clock.
+
+    Sleeping a fixed interval AFTER the work made each cycle interval plus
+    the time the work took, about 61 s. The cycles drifted later until one
+    straddled a CloudWatch minute and that minute got no datapoint. Observed
+    on 30 October 2026: two missing minutes out of about 66 on one edge.
+    A missing minute is not harmless for StreamAware mode, because the fleet
+    SUM for that minute is short by one node.
+
+    Starting every cycle at :00 keeps one datapoint in every minute, however
+    long the work takes. If a cycle overruns a whole interval, the boundary it
+    missed is skipped rather than run twice, so a minute is never doubled.
+    """
+    now = time.time()
+    time.sleep((int(now // interval) + 1) * interval - now)
 
 
 if __name__ == "__main__":
