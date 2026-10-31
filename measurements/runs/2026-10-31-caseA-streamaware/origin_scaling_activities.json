@@ -1,0 +1,16 @@
+{
+    "Activities": [
+        {
+            "ActivityId": "1ef68643-cbd1-b6cf-600e-a4e156bd177d",
+            "AutoScalingGroupName": "mohit-streamaware-test-OriginGroup-9AxKYoPDYg21",
+            "Description": "Launching a new EC2 instance: origin",
+            "Cause": "At 2026-10-31T07:53:19Z a user request update of AutoScalingGroup constraints to min: 1, max: 3, desired: 1 changing the desired capacity from 0 to 1.  At 2026-10-31T07:53:22Z an instance was started in response to a difference between desired and actual capacity, increasing the capacity from 0 to 1.",
+            "StartTime": "2026-10-31T07:53:23.821000+00:00",
+            "EndTime": "2026-10-31T07:53:29+00:00",
+            "StatusCode": "Successful",
+            "Progress": 100,
+            "Details": "{\"Availability Zone ID\":\"aps1-az1\",\"Subnet ID\":\"<subnet-origin>\",\"Availability Zone\":\"ap-south-1a\"}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:3cfe603a-9fe9-428e-b09a-bcb5dd578ad0:autoScalingGroupName/mohit-streamaware-test-OriginGroup-9AxKYoPDYg21"
+        }
+    ]
+}

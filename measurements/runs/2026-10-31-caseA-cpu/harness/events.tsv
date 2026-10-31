@@ -1,0 +1,35 @@
+time	action	detail
+2026-10-31T05:39:14Z	publisher_start	rtmp://<origin-private-ip>/LiveApp/teststream
+2026-10-31T05:40:14Z	baseline_start	viewers=0
+2026-10-31T05:45:14Z	step_up	process=1 pid=2878 viewers_requested=10
+2026-10-31T05:47:14Z	step_up	process=2 pid=3241 viewers_requested=20
+2026-10-31T05:49:14Z	step_up	process=3 pid=3699 viewers_requested=30
+2026-10-31T05:51:14Z	step_up	process=4 pid=4062 viewers_requested=40
+2026-10-31T05:53:14Z	step_up	process=5 pid=4428 viewers_requested=50
+2026-10-31T05:55:14Z	step_up	process=6 pid=4798 viewers_requested=60
+2026-10-31T05:57:14Z	step_up	process=7 pid=5161 viewers_requested=70
+2026-10-31T05:59:14Z	step_up	process=8 pid=6002 viewers_requested=80
+2026-10-31T06:01:14Z	step_up	process=9 pid=6367 viewers_requested=90
+2026-10-31T06:03:14Z	step_up	process=10 pid=6730 viewers_requested=100
+2026-10-31T06:05:14Z	step_up	process=11 pid=7093 viewers_requested=110
+2026-10-31T06:07:14Z	step_up	process=12 pid=7457 viewers_requested=120
+2026-10-31T06:09:14Z	step_up	process=13 pid=8033 viewers_requested=130
+2026-10-31T06:11:14Z	step_up	process=14 pid=8396 viewers_requested=140
+2026-10-31T06:11:14Z	hold_start	viewers_requested=140
+2026-10-31T06:31:14Z	step_down	process=14 pid=8396 viewers_requested=130
+2026-10-31T06:31:14Z	step_down	process=13 pid=8033 viewers_requested=120
+2026-10-31T06:33:14Z	step_down	process=12 pid=7457 viewers_requested=110
+2026-10-31T06:33:14Z	step_down	process=11 pid=7093 viewers_requested=100
+2026-10-31T06:35:14Z	step_down	process=10 pid=6730 viewers_requested=90
+2026-10-31T06:35:14Z	step_down	process=9 pid=6367 viewers_requested=80
+2026-10-31T06:37:14Z	step_down	process=8 pid=6002 viewers_requested=70
+2026-10-31T06:37:14Z	step_down	process=7 pid=5161 viewers_requested=60
+2026-10-31T06:39:14Z	step_down	process=6 pid=4798 viewers_requested=50
+2026-10-31T06:39:14Z	step_down	process=5 pid=4428 viewers_requested=40
+2026-10-31T06:41:14Z	step_down	process=4 pid=4062 viewers_requested=30
+2026-10-31T06:41:15Z	step_down	process=3 pid=3699 viewers_requested=20
+2026-10-31T06:43:15Z	step_down	process=2 pid=3241 viewers_requested=10
+2026-10-31T06:43:15Z	step_down	process=1 pid=2878 viewers_requested=0
+2026-10-31T06:43:15Z	ramp_down_done	viewers_requested=0
+2026-10-31T06:45:15Z	publisher_stop	
+2026-10-31T06:45:15Z	run_end	

@@ -1,0 +1,65 @@
+{
+    "MetricAlarms": [
+        {
+            "AlarmName": "TargetTracking-mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1-AlarmHigh-48affcc3-ff14-4d78-a297-ce9809360695",
+            "AlarmArn": "arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:TargetTracking-mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1-AlarmHigh-48affcc3-ff14-4d78-a297-ce9809360695",
+            "AlarmDescription": "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:cdde8daa-a0c6-4707-bb25-6665d88b90bf:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1:policyName/mohit-streamaware-test-Ed",
+            "AlarmConfigurationUpdatedTimestamp": "2026-10-31T06:30:44.734000+01:00",
+            "ActionsEnabled": true,
+            "OKActions": [],
+            "AlarmActions": [
+                "arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:cdde8daa-a0c6-4707-bb25-6665d88b90bf:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1:policyName/mohit-streamaware-test-EdgeCPUPolicy-5L5kHLNjrtLu"
+            ],
+            "InsufficientDataActions": [],
+            "StateValue": "OK",
+            "StateReason": "Threshold Crossed: 1 datapoint [47.20993105394044 (31/10/26 06:11:00)] was not greater than the threshold (60.0).",
+            "StateReasonData": "{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T06:12:37.816+0000\",\"startDate\":\"2026-10-31T06:09:00.000+0000\",\"statistic\":\"Average\",\"period\":60,\"recentDatapoints\":[77.00973203572858,77.75332966611658,47.20993105394044],\"threshold\":60.0,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T06:11:00.000+0000\",\"sampleCount\":2.0,\"value\":47.20993105394044}]}",
+            "StateUpdatedTimestamp": "2026-10-31T07:12:37.818000+01:00",
+            "MetricName": "CPUUtilization",
+            "Namespace": "AWS/EC2",
+            "Statistic": "Average",
+            "Dimensions": [
+                {
+                    "Name": "AutoScalingGroupName",
+                    "Value": "mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1"
+                }
+            ],
+            "Period": 60,
+            "EvaluationPeriods": 3,
+            "Threshold": 60.0,
+            "ComparisonOperator": "GreaterThanThreshold",
+            "StateTransitionedTimestamp": "2026-10-31T07:12:37.818000+01:00"
+        },
+        {
+            "AlarmName": "TargetTracking-mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1-AlarmLow-89c0f248-d3b9-408d-8b19-1dc29adb3976",
+            "AlarmArn": "arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:TargetTracking-mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1-AlarmLow-89c0f248-d3b9-408d-8b19-1dc29adb3976",
+            "AlarmDescription": "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:cdde8daa-a0c6-4707-bb25-6665d88b90bf:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1:policyName/mohit-streamaware-test-Ed",
+            "AlarmConfigurationUpdatedTimestamp": "2026-10-31T06:45:29.549000+01:00",
+            "ActionsEnabled": true,
+            "OKActions": [],
+            "AlarmActions": [
+                "arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:cdde8daa-a0c6-4707-bb25-6665d88b90bf:autoScalingGroupName/mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1:policyName/mohit-streamaware-test-EdgeCPUPolicy-5L5kHLNjrtLu"
+            ],
+            "InsufficientDataActions": [],
+            "StateValue": "ALARM",
+            "StateReason": "Threshold Crossed: 15 datapoints were less than the threshold (42.0). The most recent datapoints which crossed the threshold: [27.54001180614586 (31/10/26 06:33:00), 29.5801334040406 (31/10/26 06:32:00), 34.680461006162396 (31/10/26 06:31:00), 34.04956559610412 (31/10/26 06:30:00), 32.92293548161047 (31/10/26 06:29:00)].",
+            "StateReasonData": "{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T06:34:26.586+0000\",\"startDate\":\"2026-10-31T06:19:00.000+0000\",\"statistic\":\"Average\",\"period\":60,\"recentDatapoints\":[33.74693819632972,33.4336620495178,32.76260988437409,33.222776787629705,32.99768604272348,33.340184367202006,33.1469756379479,33.39080161137065,33.191739020181934,33.25907566862159,32.92293548161047,34.04956559610412,34.680461006162396,29.5801334040406,27.54001180614586],\"threshold\":42.0,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T06:33:00.000+0000\",\"sampleCount\":3.0,\"value\":27.54001180614586},{\"timestamp\":\"2026-10-31T06:32:00.000+0000\",\"sampleCount\":3.0,\"value\":29.5801334040406},{\"timestamp\":\"2026-10-31T06:31:00.000+0000\",\"sampleCount\":3.0,\"value\":34.680461006162396},{\"timestamp\":\"2026-10-31T06:30:00.000+0000\",\"sampleCount\":3.0,\"value\":34.04956559610412},{\"timestamp\":\"2026-10-31T06:29:00.000+0000\",\"sampleCount\":3.0,\"value\":32.92293548161047},{\"timestamp\":\"2026-10-31T06:28:00.000+0000\",\"sampleCount\":3.0,\"value\":33.25907566862159},{\"timestamp\":\"2026-10-31T06:27:00.000+0000\",\"sampleCount\":3.0,\"value\":33.191739020181934},{\"timestamp\":\"2026-10-31T06:26:00.000+0000\",\"sampleCount\":3.0,\"value\":33.39080161137065},{\"timestamp\":\"2026-10-31T06:25:00.000+0000\",\"sampleCount\":3.0,\"value\":33.1469756379479},{\"timestamp\":\"2026-10-31T06:24:00.000+0000\",\"sampleCount\":3.0,\"value\":33.340184367202006},{\"timestamp\":\"2026-10-31T06:23:00.000+0000\",\"sampleCount\":3.0,\"value\":32.99768604272348},{\"timestamp\":\"2026-10-31T06:22:00.000+0000\",\"sampleCount\":3.0,\"value\":33.222776787629705},{\"timestamp\":\"2026-10-31T06:21:00.000+0000\",\"sampleCount\":3.0,\"value\":32.76260988437409},{\"timestamp\":\"2026-10-31T06:20:00.000+0000\",\"sampleCount\":3.0,\"value\":33.4336620495178},{\"timestamp\":\"2026-10-31T06:19:00.000+0000\",\"sampleCount\":3.0,\"value\":33.74693819632972}]}",
+            "StateUpdatedTimestamp": "2026-10-31T07:34:26.588000+01:00",
+            "MetricName": "CPUUtilization",
+            "Namespace": "AWS/EC2",
+            "Statistic": "Average",
+            "Dimensions": [
+                {
+                    "Name": "AutoScalingGroupName",
+                    "Value": "mohit-streamaware-test-EdgeGroup-Ib6dble8cKz1"
+                }
+            ],
+            "Period": 60,
+            "EvaluationPeriods": 15,
+            "Threshold": 42.0,
+            "ComparisonOperator": "LessThanThreshold",
+            "StateTransitionedTimestamp": "2026-10-31T07:34:26.588000+01:00"
+        }
+    ],
+    "CompositeAlarms": []
+}

@@ -1,0 +1,24 @@
+time	action	detail
+2026-10-31T08:00:28Z	publisher_start	rtmp://<origin-private-ip>/LiveApp/teststream
+2026-10-31T08:01:28Z	baseline_start	viewers=0
+2026-10-31T08:06:28Z	step_up	process=1 pid=1805 viewers_requested=10
+2026-10-31T08:08:28Z	step_up	process=2 pid=2169 viewers_requested=20
+2026-10-31T08:10:28Z	step_up	process=3 pid=2625 viewers_requested=30
+2026-10-31T08:12:28Z	step_up	process=4 pid=2988 viewers_requested=40
+2026-10-31T08:14:28Z	step_up	process=5 pid=3354 viewers_requested=50
+2026-10-31T08:16:28Z	step_up	process=6 pid=3719 viewers_requested=60
+2026-10-31T08:18:28Z	step_up	process=7 pid=4085 viewers_requested=70
+2026-10-31T08:20:28Z	step_up	process=8 pid=4601 viewers_requested=80
+2026-10-31T08:22:28Z	step_up	process=9 pid=4966 viewers_requested=90
+2026-10-31T08:24:28Z	step_up	process=10 pid=5329 viewers_requested=100
+2026-10-31T08:26:28Z	step_up	process=11 pid=6023 viewers_requested=110
+2026-10-31T08:28:28Z	step_up	process=12 pid=6589 viewers_requested=120
+2026-10-31T08:30:28Z	step_up	process=13 pid=6954 viewers_requested=130
+2026-10-31T08:32:28Z	step_up	process=14 pid=7317 viewers_requested=140
+2026-10-31T08:32:28Z	hold_start	viewers_requested=140
+2026-10-31T08:52:28Z	step_down	process=14 pid=7317 viewers_requested=130
+2026-10-31T08:52:28Z	step_down	process=13 pid=6954 viewers_requested=120
+2026-10-31T08:52:43Z	stopped_by_operator	hold ended early at operator request; all viewers stopped at once
+2026-10-31T08:52:46Z	viewers_stopped	viewers_requested=0
+2026-10-31T08:52:48Z	publisher_stop	
+2026-10-31T08:52:48Z	run_end	
