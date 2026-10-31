@@ -1,0 +1,62 @@
+{
+    "Activities": [
+        {
+            "ActivityId": "fea68646-ccb5-bb59-cef8-92f4a48abcbd",
+            "AutoScalingGroupName": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK",
+            "Description": "Terminating EC2 instance: origin-2 - Waiting For ELB Connection Draining.",
+            "Cause": "At 2026-10-31T11:23:21Z instance origin-2 was taken out of service in response to a user request, shrinking the capacity from 2 to 1.",
+            "StartTime": "2026-10-31T11:23:21.326000+00:00",
+            "StatusCode": "WaitingForELBConnectionDraining",
+            "Progress": 50,
+            "Details": "{\"Availability Zone ID\":\"aps1-az1\",\"Subnet ID\":\"<subnet-origin>\",\"Availability Zone\":\"ap-south-1a\"}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:8e5155ed-4693-4302-bccd-b7cc75b3cd92:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+        },
+        {
+            "ActivityId": "4cd68646-cca3-efd5-6117-0c73e49f3214",
+            "AutoScalingGroupName": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK",
+            "Description": "Terminating EC2 instance: origin-3 - Waiting For ELB Connection Draining.",
+            "Cause": "At 2026-10-31T11:23:20Z instance origin-3 was taken out of service in response to a user request, shrinking the capacity from 3 to 2.",
+            "StartTime": "2026-10-31T11:23:20.187000+00:00",
+            "StatusCode": "WaitingForELBConnectionDraining",
+            "Progress": 50,
+            "Details": "{\"Availability Zone ID\":\"aps1-az1\",\"Subnet ID\":\"<subnet-origin>\",\"Availability Zone\":\"ap-south-1a\"}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:8e5155ed-4693-4302-bccd-b7cc75b3cd92:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+        },
+        {
+            "ActivityId": "02368646-a559-ea2b-38f9-c78f04ef7c34",
+            "AutoScalingGroupName": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK",
+            "Description": "Launching a new EC2 instance: origin-3",
+            "Cause": "At 2026-10-31T11:12:24Z a monitor alarm TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-fc6f1263-fa36-4f82-abbc-516ed2878dad in state ALARM triggered policy mohit-streamaware-test-OriginCPUPolicy-gzWLFcP0d7lI changing the desired capacity from 2 to 3.  At 2026-10-31T11:12:34Z an instance was started in response to a difference between desired and actual capacity, increasing the capacity from 2 to 3.",
+            "StartTime": "2026-10-31T11:12:36.474000+00:00",
+            "EndTime": "2026-10-31T11:17:43+00:00",
+            "StatusCode": "Successful",
+            "Progress": 100,
+            "Details": "{\"Availability Zone ID\":\"aps1-az1\",\"Subnet ID\":\"<subnet-origin>\",\"Availability Zone\":\"ap-south-1a\",\"InvokingAlarms\":[{\"AlarmArn\":\"arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-fc6f1263-fa36-4f82-abbc-516ed2878dad\",\"Trigger\":{\"MetricName\":\"CPUUtilization\",\"EvaluateLowSampleCountPercentile\":\"\",\"ComparisonOperator\":\"GreaterThanThreshold\",\"TreatMissingData\":\"\",\"Statistic\":\"AVERAGE\",\"StatisticType\":\"Statistic\",\"Period\":60,\"EvaluationPeriods\":3,\"Unit\":null,\"Namespace\":\"AWS/EC2\",\"Threshold\":60},\"AlarmName\":\"TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-fc6f1263-fa36-4f82-abbc-516ed2878dad\",\"AlarmDescription\":\"DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:4358e399-da7a-4ea0-8ec8-5619341e836f:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK:policyName/mohit-streamaware-test-\",\"AWSAccountId\":\"<account-id>\",\"OldStateValue\":\"ALARM\",\"Region\":\"Asia Pacific (Mumbai)\",\"NewStateValue\":\"ALARM\",\"AlarmConfigurationUpdatedTimestamp\":1793442424984,\"StateChangeTime\":1793444804732}]}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:8e5155ed-4693-4302-bccd-b7cc75b3cd92:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+        },
+        {
+            "ActivityId": "6f468646-9054-031a-8c42-567d535f9fe7",
+            "AutoScalingGroupName": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK",
+            "Description": "Launching a new EC2 instance: origin-2",
+            "Cause": "At 2026-10-31T11:06:44Z a monitor alarm TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-fc6f1263-fa36-4f82-abbc-516ed2878dad in state ALARM triggered policy mohit-streamaware-test-OriginCPUPolicy-gzWLFcP0d7lI changing the desired capacity from 1 to 2.  At 2026-10-31T11:06:50Z an instance was started in response to a difference between desired and actual capacity, increasing the capacity from 1 to 2.",
+            "StartTime": "2026-10-31T11:06:52.032000+00:00",
+            "EndTime": "2026-10-31T11:11:57+00:00",
+            "StatusCode": "Successful",
+            "Progress": 100,
+            "Details": "{\"Availability Zone ID\":\"aps1-az1\",\"Subnet ID\":\"<subnet-origin>\",\"Availability Zone\":\"ap-south-1a\",\"InvokingAlarms\":[{\"AlarmArn\":\"arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-fc6f1263-fa36-4f82-abbc-516ed2878dad\",\"Trigger\":{\"MetricName\":\"CPUUtilization\",\"EvaluateLowSampleCountPercentile\":\"\",\"ComparisonOperator\":\"GreaterThanThreshold\",\"TreatMissingData\":\"\",\"Statistic\":\"AVERAGE\",\"StatisticType\":\"Statistic\",\"Period\":60,\"EvaluationPeriods\":3,\"Unit\":null,\"Namespace\":\"AWS/EC2\",\"Threshold\":60},\"AlarmName\":\"TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-fc6f1263-fa36-4f82-abbc-516ed2878dad\",\"AlarmDescription\":\"DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:4358e399-da7a-4ea0-8ec8-5619341e836f:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK:policyName/mohit-streamaware-test-\",\"AWSAccountId\":\"<account-id>\",\"OldStateValue\":\"OK\",\"Region\":\"Asia Pacific (Mumbai)\",\"NewStateValue\":\"ALARM\",\"AlarmConfigurationUpdatedTimestamp\":1793442424984,\"StateChangeTime\":1793444804732}]}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:8e5155ed-4693-4302-bccd-b7cc75b3cd92:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+        },
+        {
+            "ActivityId": "8ad68645-fe91-33a4-8b92-fc43ca5cd2f9",
+            "AutoScalingGroupName": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK",
+            "Description": "Launching a new EC2 instance: origin-1",
+            "Cause": "At 2026-10-31T10:26:58Z a user request update of AutoScalingGroup constraints to min: 1, max: 3, desired: 1 changing the desired capacity from 0 to 1.  At 2026-10-31T10:27:01Z an instance was started in response to a difference between desired and actual capacity, increasing the capacity from 0 to 1.",
+            "StartTime": "2026-10-31T10:27:03.884000+00:00",
+            "EndTime": "2026-10-31T10:27:09+00:00",
+            "StatusCode": "Successful",
+            "Progress": 100,
+            "Details": "{\"Availability Zone ID\":\"aps1-az1\",\"Subnet ID\":\"<subnet-origin>\",\"Availability Zone\":\"ap-south-1a\"}",
+            "AutoScalingGroupARN": "arn:aws:autoscaling:ap-south-1:<account-id>:autoScalingGroup:8e5155ed-4693-4302-bccd-b7cc75b3cd92:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+        }
+    ]
+}

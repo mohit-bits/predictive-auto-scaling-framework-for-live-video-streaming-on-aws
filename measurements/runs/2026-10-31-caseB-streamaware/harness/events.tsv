@@ -1,0 +1,32 @@
+time	action	detail
+2026-10-31T11:38:53Z	baseline_start	streams=0 source=test1080p_2500k.mp4
+2026-10-31T11:43:53Z	step_up	step=1 streams_requested=3
+2026-10-31T11:45:53Z	step_up	step=2 streams_requested=6
+2026-10-31T11:47:53Z	step_up	step=3 streams_requested=9
+2026-10-31T11:49:53Z	step_up	step=4 streams_requested=12
+2026-10-31T11:51:53Z	step_up	step=5 streams_requested=15
+2026-10-31T11:53:53Z	step_up	step=6 streams_requested=18
+2026-10-31T11:55:53Z	step_up	step=7 streams_requested=21
+2026-10-31T11:57:53Z	step_up	step=8 streams_requested=24
+2026-10-31T11:59:53Z	step_up	step=9 streams_requested=27
+2026-10-31T12:01:53Z	step_up	step=10 streams_requested=30
+2026-10-31T12:03:53Z	step_up	step=11 streams_requested=33
+2026-10-31T12:05:53Z	step_up	step=12 streams_requested=36
+2026-10-31T12:07:53Z	step_up	step=13 streams_requested=39
+2026-10-31T12:09:54Z	step_up	step=14 streams_requested=42
+2026-10-31T12:11:54Z	step_up	step=15 streams_requested=45
+2026-10-31T12:13:54Z	step_up	step=16 streams_requested=48
+2026-10-31T12:13:54Z	hold_start	streams_requested=48
+2026-10-31T12:20:03Z	extra_stream_added	caseB-49 (operator request, during hold)
+2026-10-31T12:20:26Z	extra_stream_added	caseB-50 (operator request, during hold)
+2026-10-31T12:20:49Z	extra_stream_added	caseB-51 (operator request, during hold)
+2026-10-31T12:21:13Z	extra_stream_added	caseB-52 (operator request, during hold)
+2026-10-31T12:21:37Z	extra_stream_added	caseB-53 (operator request, during hold)
+2026-10-31T12:22:00Z	extra_stream_added	caseB-54 (operator request, during hold)
+2026-10-31T12:22:24Z	extra_stream_added	caseB-55 (operator request, during hold)
+2026-10-31T12:22:47Z	extra_stream_added	caseB-56 (operator request, during hold)
+2026-10-31T12:23:10Z	extra_stream_added	caseB-57 (operator request, during hold)
+2026-10-31T12:24:02Z	extra_stream_added	caseB-58 (operator request, during hold)
+2026-10-31T12:31:27Z	stopped_by_operator	hold ended early at operator request; all 58 publishers stopped at once
+2026-10-31T12:31:32Z	publishers_stopped	streams_requested=0
+2026-10-31T12:31:32Z	run_end	

@@ -1,0 +1,30 @@
+2026-10-31T12:04:27+00:00 origin-2-host systemd[1]: Started ams-collector.service - Ant Media scaling metric collector.
+2026-10-31T12:04:30+00:00 origin-2-host python3[2938]: 12:04:30 published 10 datapoints, LoadIndex=0.0000
+2026-10-31T12:05:01+00:00 origin-2-host python3[2938]: 12:05:01 published 10 datapoints, LoadIndex=0.0000
+2026-10-31T12:06:01+00:00 origin-2-host python3[2938]: 12:06:01 published 10 datapoints, LoadIndex=0.0571
+2026-10-31T12:07:01+00:00 origin-2-host python3[2938]: 12:07:01 published 10 datapoints, LoadIndex=0.0571
+2026-10-31T12:08:01+00:00 origin-2-host python3[2938]: 12:08:01 published 10 datapoints, LoadIndex=0.0571
+2026-10-31T12:09:01+00:00 origin-2-host python3[2938]: 12:09:01 published 10 datapoints, LoadIndex=0.0571
+2026-10-31T12:10:01+00:00 origin-2-host python3[2938]: 12:10:01 published 10 datapoints, LoadIndex=0.0571
+2026-10-31T12:11:01+00:00 origin-2-host python3[2938]: 12:11:01 published 10 datapoints, LoadIndex=0.0571
+2026-10-31T12:12:01+00:00 origin-2-host python3[2938]: 12:12:01 published 10 datapoints, LoadIndex=0.0857
+2026-10-31T12:13:01+00:00 origin-2-host python3[2938]: 12:13:01 published 10 datapoints, LoadIndex=0.0857
+2026-10-31T12:14:01+00:00 origin-2-host python3[2938]: 12:14:01 published 10 datapoints, LoadIndex=0.1714
+2026-10-31T12:15:01+00:00 origin-2-host python3[2938]: 12:15:01 published 10 datapoints, LoadIndex=0.1714
+2026-10-31T12:16:01+00:00 origin-2-host python3[2938]: 12:16:01 published 10 datapoints, LoadIndex=0.1714
+2026-10-31T12:17:01+00:00 origin-2-host python3[2938]: 12:17:01 published 10 datapoints, LoadIndex=0.1714
+2026-10-31T12:18:01+00:00 origin-2-host python3[2938]: 12:18:01 published 10 datapoints, LoadIndex=0.1714
+2026-10-31T12:19:01+00:00 origin-2-host python3[2938]: 12:19:01 published 10 datapoints, LoadIndex=0.1714
+2026-10-31T12:20:01+00:00 origin-2-host python3[2938]: 12:20:01 published 10 datapoints, LoadIndex=0.1714
+2026-10-31T12:21:01+00:00 origin-2-host python3[2938]: 12:21:01 published 10 datapoints, LoadIndex=0.1714
+2026-10-31T12:22:01+00:00 origin-2-host python3[2938]: warning: originAdress filter counted 9 streams but localLiveStreams reports 8. Possible stale record or an app not in the list.
+2026-10-31T12:22:01+00:00 origin-2-host python3[2938]: 12:22:01 published 10 datapoints, LoadIndex=0.2571
+2026-10-31T12:23:01+00:00 origin-2-host python3[2938]: 12:23:01 published 10 datapoints, LoadIndex=0.3143
+2026-10-31T12:24:01+00:00 origin-2-host python3[2938]: 12:24:01 published 10 datapoints, LoadIndex=0.3429
+2026-10-31T12:25:01+00:00 origin-2-host python3[2938]: 12:25:01 published 10 datapoints, LoadIndex=0.3429
+2026-10-31T12:26:01+00:00 origin-2-host python3[2938]: 12:26:01 published 10 datapoints, LoadIndex=0.3429
+2026-10-31T12:27:01+00:00 origin-2-host python3[2938]: 12:27:01 published 10 datapoints, LoadIndex=0.3429
+2026-10-31T12:28:01+00:00 origin-2-host python3[2938]: 12:28:01 published 10 datapoints, LoadIndex=0.3429
+2026-10-31T12:29:01+00:00 origin-2-host python3[2938]: 12:29:01 published 10 datapoints, LoadIndex=0.3429
+2026-10-31T12:30:01+00:00 origin-2-host python3[2938]: 12:30:01 published 10 datapoints, LoadIndex=0.3429
+2026-10-31T12:31:01+00:00 origin-2-host python3[2938]: 12:31:01 published 10 datapoints, LoadIndex=0.3429

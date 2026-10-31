@@ -1,0 +1,96 @@
+{
+    "AlarmHistoryItems": [
+        {
+            "AlarmName": "TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-2627b407-75b0-4532-97f3-756881673e41",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T13:26:08.773000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from ALARM to OK",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"ALARM\",\"stateReason\":\"Threshold Crossed: 3 datapoints [0.8 (31/10/26 12:23:00), 0.7714285714285715 (31/10/26 12:22:00), 0.7285714285714286 (31/10/26 12:21:00)] were greater than the threshold (0.7).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:24:08.776+0000\",\"startDate\":\"2026-10-31T12:21:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.7285714285714286,0.7714285714285715,0.8],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:23:00.000+0000\",\"value\":0.8},{\"timestamp\":\"2026-10-31T12:22:00.000+0000\",\"value\":0.7714285714285715},{\"timestamp\":\"2026-10-31T12:21:00.000+0000\",\"value\":0.7285714285714286}]}},\"newState\":{\"stateValue\":\"OK\",\"stateReason\":\"Threshold Crossed: 1 datapoint [0.5523809523809523 (31/10/26 12:25:00)] was not greater than the threshold (0.7).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:26:08.771+0000\",\"startDate\":\"2026-10-31T12:23:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.8,0.8142857142857143,0.5523809523809523],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:25:00.000+0000\",\"value\":0.5523809523809523}]}}}"
+        },
+        {
+            "AlarmName": "TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-2627b407-75b0-4532-97f3-756881673e41",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T13:24:08.777000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from OK to ALARM",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"OK\",\"stateReason\":\"Threshold Crossed: 1 datapoint [0.4714285714285714 (31/10/26 12:04:00)] was not greater than the threshold (0.7).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:05:08.775+0000\",\"startDate\":\"2026-10-31T12:02:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.8571428571428571,0.8571428571428571,0.4714285714285714],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:04:00.000+0000\",\"value\":0.4714285714285714}]}},\"newState\":{\"stateValue\":\"ALARM\",\"stateReason\":\"Threshold Crossed: 3 datapoints [0.8 (31/10/26 12:23:00), 0.7714285714285715 (31/10/26 12:22:00), 0.7285714285714286 (31/10/26 12:21:00)] were greater than the threshold (0.7).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:24:08.776+0000\",\"startDate\":\"2026-10-31T12:21:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.7285714285714286,0.7714285714285715,0.8],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:23:00.000+0000\",\"value\":0.8},{\"timestamp\":\"2026-10-31T12:22:00.000+0000\",\"value\":0.7714285714285715},{\"timestamp\":\"2026-10-31T12:21:00.000+0000\",\"value\":0.7285714285714286}]}}}"
+        },
+        {
+            "AlarmName": "TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-2627b407-75b0-4532-97f3-756881673e41",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T13:05:08.776000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from ALARM to OK",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"ALARM\",\"stateReason\":\"Threshold Crossed: 3 datapoints [0.8571428571428571 (31/10/26 12:02:00), 0.7714285714285715 (31/10/26 12:01:00), 0.7714285714285715 (31/10/26 12:00:00)] were greater than the threshold (0.7).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:03:08.771+0000\",\"startDate\":\"2026-10-31T12:00:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.7714285714285715,0.7714285714285715,0.8571428571428571],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:02:00.000+0000\",\"value\":0.8571428571428571},{\"timestamp\":\"2026-10-31T12:01:00.000+0000\",\"value\":0.7714285714285715},{\"timestamp\":\"2026-10-31T12:00:00.000+0000\",\"value\":0.7714285714285715}]}},\"newState\":{\"stateValue\":\"OK\",\"stateReason\":\"Threshold Crossed: 1 datapoint [0.4714285714285714 (31/10/26 12:04:00)] was not greater than the threshold (0.7).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:05:08.775+0000\",\"startDate\":\"2026-10-31T12:02:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.8571428571428571,0.8571428571428571,0.4714285714285714],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:04:00.000+0000\",\"value\":0.4714285714285714}]}}}"
+        },
+        {
+            "AlarmName": "TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-2627b407-75b0-4532-97f3-756881673e41",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T13:03:08.772000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from OK to ALARM",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"OK\",\"stateReason\":\"Threshold Crossed: 3 datapoints [0.0 (31/10/26 11:38:00), 0.0 (31/10/26 11:37:00), 0.0 (31/10/26 11:36:00)] were not greater than the threshold (0.7).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:39:08.771+0000\",\"startDate\":\"2026-10-31T11:36:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.0,0.0,0.0],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:38:00.000+0000\",\"value\":0.0}]}},\"newState\":{\"stateValue\":\"ALARM\",\"stateReason\":\"Threshold Crossed: 3 datapoints [0.8571428571428571 (31/10/26 12:02:00), 0.7714285714285715 (31/10/26 12:01:00), 0.7714285714285715 (31/10/26 12:00:00)] were greater than the threshold (0.7).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:03:08.771+0000\",\"startDate\":\"2026-10-31T12:00:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.7714285714285715,0.7714285714285715,0.8571428571428571],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:02:00.000+0000\",\"value\":0.8571428571428571},{\"timestamp\":\"2026-10-31T12:01:00.000+0000\",\"value\":0.7714285714285715},{\"timestamp\":\"2026-10-31T12:00:00.000+0000\",\"value\":0.7714285714285715}]}}}"
+        },
+        {
+            "AlarmName": "TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-2627b407-75b0-4532-97f3-756881673e41",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T12:39:08.773000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from INSUFFICIENT_DATA to OK",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"INSUFFICIENT_DATA\",\"stateReason\":\"Unchecked: Initial alarm creation\"},\"newState\":{\"stateValue\":\"OK\",\"stateReason\":\"Threshold Crossed: 3 datapoints [0.0 (31/10/26 11:38:00), 0.0 (31/10/26 11:37:00), 0.0 (31/10/26 11:36:00)] were not greater than the threshold (0.7).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:39:08.771+0000\",\"startDate\":\"2026-10-31T11:36:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.0,0.0,0.0],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:38:00.000+0000\",\"value\":0.0}]}}}"
+        }
+    ]
+}
+{
+    "AlarmHistoryItems": [
+        {
+            "AlarmName": "mohit-streamaware-test-OriginCPUSafetyAlarm-3438ED3S5oYC",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T13:24:18.065000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from OK to ALARM",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"OK\",\"stateReason\":\"Threshold Crossed: 3 datapoints [0.0 (31/10/26 11:38:00), 0.25 (31/10/26 11:37:00), 0.25 (31/10/26 11:36:00)] were not greater than the threshold (75.0).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:39:18.062+0000\",\"startDate\":\"2026-10-31T11:36:00.000+0000\",\"statistic\":\"Maximum\",\"period\":60,\"recentDatapoints\":[0.25,0.25,0.0],\"threshold\":75.0,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:38:00.000+0000\",\"sampleCount\":1.0,\"value\":0.0}]}},\"newState\":{\"stateValue\":\"ALARM\",\"stateReason\":\"Threshold Crossed: 3 datapoints [75.13089005235602 (31/10/26 12:23:00), 76.43979057591623 (31/10/26 12:22:00), 75.13089005235602 (31/10/26 12:21:00)] were greater than the threshold (75.0).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:24:18.063+0000\",\"startDate\":\"2026-10-31T12:21:00.000+0000\",\"statistic\":\"Maximum\",\"period\":60,\"recentDatapoints\":[75.13089005235602,76.43979057591623,75.13089005235602],\"threshold\":75.0,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:23:00.000+0000\",\"sampleCount\":2.0,\"value\":75.13089005235602},{\"timestamp\":\"2026-10-31T12:22:00.000+0000\",\"sampleCount\":2.0,\"value\":76.43979057591623},{\"timestamp\":\"2026-10-31T12:21:00.000+0000\",\"sampleCount\":2.0,\"value\":75.13089005235602}]}}}"
+        },
+        {
+            "AlarmName": "mohit-streamaware-test-OriginCPUSafetyAlarm-3438ED3S5oYC",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T12:39:18.064000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from INSUFFICIENT_DATA to OK",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"INSUFFICIENT_DATA\",\"stateReason\":\"Unchecked: Initial alarm creation\"},\"newState\":{\"stateValue\":\"OK\",\"stateReason\":\"Threshold Crossed: 3 datapoints [0.0 (31/10/26 11:38:00), 0.25 (31/10/26 11:37:00), 0.25 (31/10/26 11:36:00)] were not greater than the threshold (75.0).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:39:18.062+0000\",\"startDate\":\"2026-10-31T11:36:00.000+0000\",\"statistic\":\"Maximum\",\"period\":60,\"recentDatapoints\":[0.25,0.25,0.0],\"threshold\":75.0,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:38:00.000+0000\",\"sampleCount\":1.0,\"value\":0.0}]}}}"
+        }
+    ]
+}
+{
+    "AlarmHistoryItems": [
+        {
+            "AlarmName": "mohit-streamaware-test-OriginGPUSafetyAlarm-NQFjnv80HYaS",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T12:38:30.199000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from INSUFFICIENT_DATA to OK",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"INSUFFICIENT_DATA\",\"stateReason\":\"Unchecked: Initial alarm creation\"},\"newState\":{\"stateValue\":\"OK\",\"stateReason\":\"Threshold Crossed: no datapoints were received for 3 periods and 3 missing datapoints were treated as [NonBreaching].\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:38:30.197+0000\",\"statistic\":\"Average\",\"period\":60,\"recentDatapoints\":[],\"threshold\":75.0,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:37:00.000+0000\"}]}}}"
+        }
+    ]
+}
+{
+    "AlarmHistoryItems": [
+        {
+            "AlarmName": "mohit-streamaware-test-OriginScaleInAlarm-tk8ZYFHvdom4",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T12:53:58.223000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from ALARM to OK",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"ALARM\",\"stateReason\":\"Threshold Crossed: 15 out of the last 15 datapoints were less than the threshold (0.35). The most recent datapoints which crossed the threshold: [0.0 (31/10/26 11:37:00), 0.0 (31/10/26 11:36:00), 0.0 (31/10/26 11:35:00), 0.0 (31/10/26 11:34:00), 0.0 (31/10/26 11:33:00)] (minimum 15 datapoints for OK -> ALARM transition).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:38:58.220+0000\",\"startDate\":\"2026-10-31T11:23:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],\"threshold\":0.35,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:37:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:36:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:35:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:34:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:33:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:32:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:31:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:30:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:29:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:28:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:27:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:26:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:25:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:24:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:23:00.000+0000\",\"value\":0.0}]}},\"newState\":{\"stateValue\":\"OK\",\"stateReason\":\"Threshold Crossed: 1 out of the last 15 datapoints [0.42857142857142855 (31/10/26 11:52:00)] was not less than the threshold (0.35) (minimum 1 datapoint for ALARM -> OK transition).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:53:58.220+0000\",\"startDate\":\"2026-10-31T11:38:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.0,0.0,0.0,0.0,0.0,0.0,0.08571428571428572,0.08571428571428572,0.17142857142857143,0.17142857142857143,0.2571428571428571,0.2571428571428571,0.34285714285714286,0.34285714285714286,0.42857142857142855],\"threshold\":0.35,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:52:00.000+0000\",\"value\":0.42857142857142855}]}}}"
+        },
+        {
+            "AlarmName": "mohit-streamaware-test-OriginScaleInAlarm-tk8ZYFHvdom4",
+            "AlarmType": "MetricAlarm",
+            "Timestamp": "2026-10-31T12:38:58.222000+01:00",
+            "HistoryItemType": "StateUpdate",
+            "HistorySummary": "Alarm updated from INSUFFICIENT_DATA to ALARM",
+            "HistoryData": "{\"version\":\"1.0\",\"oldState\":{\"stateValue\":\"INSUFFICIENT_DATA\",\"stateReason\":\"Unchecked: Initial alarm creation\"},\"newState\":{\"stateValue\":\"ALARM\",\"stateReason\":\"Threshold Crossed: 15 out of the last 15 datapoints were less than the threshold (0.35). The most recent datapoints which crossed the threshold: [0.0 (31/10/26 11:37:00), 0.0 (31/10/26 11:36:00), 0.0 (31/10/26 11:35:00), 0.0 (31/10/26 11:34:00), 0.0 (31/10/26 11:33:00)] (minimum 15 datapoints for OK -> ALARM transition).\",\"stateReasonData\":{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:38:58.220+0000\",\"startDate\":\"2026-10-31T11:23:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],\"threshold\":0.35,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:37:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:36:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:35:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:34:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:33:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:32:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:31:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:30:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:29:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:28:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:27:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:26:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:25:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:24:00.000+0000\",\"value\":0.0},{\"timestamp\":\"2026-10-31T11:23:00.000+0000\",\"value\":0.0}]}}}"
+        }
+    ]
+}

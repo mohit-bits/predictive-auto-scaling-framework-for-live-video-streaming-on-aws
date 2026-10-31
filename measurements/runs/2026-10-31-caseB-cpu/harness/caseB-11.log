@@ -1,0 +1,38 @@
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/ubuntu/test1080p_2500k.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf58.76.100
+  Duration: 00:01:00.00, start: 0.000000, bitrate: 2640 kb/s
+  Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 1920x1080 [SAR 1:1 DAR 16:9], 2504 kb/s, 30 fps, 30 tbr, 15360 tbn, 60 tbc (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Output #0, flv, to 'rtmp://<nlb-dns>/LiveApp/caseB-11':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf58.76.100
+  Stream #0:0(und): Video: h264 (High) ([7][0][0][0] / 0x0007), yuv420p, 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 2504 kb/s, 30 fps, 30 tbr, 1k tbn, 15360 tbc (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+  Stream #0:1(und): Audio: aac (LC) ([10][0][0][0] / 0x000A), 48000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+[flv @ 0x57d2e2c6c200] Failed to update header with correct duration.
+[flv @ 0x57d2e2c6c200] Failed to update header with correct filesize.
+video:683271kB audio:35016kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.424483%
+Exiting normally, received signal 2.
+# 4404 progress lines, speed min 0.999x max 1.010x
+frame=67036 fps= 30 q=-1.0 Lsize=  721336kB time=00:37:14.89 bitrate=2644.1kbits/s speed=   1x    

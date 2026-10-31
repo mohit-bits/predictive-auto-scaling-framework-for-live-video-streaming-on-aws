@@ -1,0 +1,200 @@
+{
+    "MetricAlarms": [
+        {
+            "AlarmName": "TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-2627b407-75b0-4532-97f3-756881673e41",
+            "AlarmArn": "arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:TargetTracking-mohit-streamaware-test-OriginGroup-2OINn64GB9VK-AlarmHigh-2627b407-75b0-4532-97f3-756881673e41",
+            "AlarmDescription": "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:397dc527-925d-46b9-aeea-77d9bec24474:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK:policyName/mohit-streamaware-test-",
+            "AlarmConfigurationUpdatedTimestamp": "2026-10-31T12:37:36.210000+01:00",
+            "ActionsEnabled": true,
+            "OKActions": [],
+            "AlarmActions": [
+                "arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:397dc527-925d-46b9-aeea-77d9bec24474:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK:policyName/mohit-streamaware-test-OriginLoadIndexPolicy-Zz1EsCw5yYJO"
+            ],
+            "InsufficientDataActions": [],
+            "StateValue": "OK",
+            "StateReason": "Threshold Crossed: 1 datapoint [0.5523809523809523 (31/10/26 12:25:00)] was not greater than the threshold (0.7).",
+            "StateReasonData": "{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:26:08.771+0000\",\"startDate\":\"2026-10-31T12:23:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.8,0.8142857142857143,0.5523809523809523],\"threshold\":0.7,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:25:00.000+0000\",\"value\":0.5523809523809523}]}",
+            "StateUpdatedTimestamp": "2026-10-31T13:26:08.773000+01:00",
+            "Dimensions": [],
+            "EvaluationPeriods": 3,
+            "Threshold": 0.7,
+            "ComparisonOperator": "GreaterThanThreshold",
+            "Metrics": [
+                {
+                    "Id": "fleetsize",
+                    "MetricStat": {
+                        "Metric": {
+                            "Namespace": "AWS/AutoScaling",
+                            "MetricName": "GroupDesiredCapacity",
+                            "Dimensions": [
+                                {
+                                    "Name": "AutoScalingGroupName",
+                                    "Value": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+                                }
+                            ]
+                        },
+                        "Period": 60,
+                        "Stat": "Average"
+                    },
+                    "Label": "Nodes asked for, including those still booting",
+                    "ReturnData": false
+                },
+                {
+                    "Id": "fleetindex",
+                    "Expression": "fleetload / fleetsize",
+                    "Label": "Fleet load over fleet capacity",
+                    "ReturnData": true,
+                    "Period": 60
+                },
+                {
+                    "Id": "fleetload",
+                    "MetricStat": {
+                        "Metric": {
+                            "Namespace": "AntMedia/Scaling",
+                            "MetricName": "LoadIndex",
+                            "Dimensions": [
+                                {
+                                    "Name": "AutoScalingGroupName",
+                                    "Value": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+                                }
+                            ]
+                        },
+                        "Period": 60,
+                        "Stat": "Sum"
+                    },
+                    "Label": "Sum of per node load index",
+                    "ReturnData": false
+                }
+            ],
+            "StateTransitionedTimestamp": "2026-10-31T13:26:08.773000+01:00"
+        },
+        {
+            "AlarmName": "mohit-streamaware-test-OriginCPUSafetyAlarm-3438ED3S5oYC",
+            "AlarmArn": "arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:mohit-streamaware-test-OriginCPUSafetyAlarm-3438ED3S5oYC",
+            "AlarmDescription": "CPU is high even though the load index did not ask for capacity. The index is only as good as the capacity table behind it, so this catches workloads it has not anticipated.",
+            "AlarmConfigurationUpdatedTimestamp": "2026-10-31T12:37:44.439000+01:00",
+            "ActionsEnabled": true,
+            "OKActions": [],
+            "AlarmActions": [
+                "arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:94772e58-b644-49ed-9061-c5ad76bb95f3:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK:policyName/mohit-streamaware-test-OriginCPUSafetyPolicy-utCykmvsVx7b"
+            ],
+            "InsufficientDataActions": [],
+            "StateValue": "ALARM",
+            "StateReason": "Threshold Crossed: 3 datapoints [75.13089005235602 (31/10/26 12:23:00), 76.43979057591623 (31/10/26 12:22:00), 75.13089005235602 (31/10/26 12:21:00)] were greater than the threshold (75.0).",
+            "StateReasonData": "{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T12:24:18.063+0000\",\"startDate\":\"2026-10-31T12:21:00.000+0000\",\"statistic\":\"Maximum\",\"period\":60,\"recentDatapoints\":[75.13089005235602,76.43979057591623,75.13089005235602],\"threshold\":75.0,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T12:23:00.000+0000\",\"sampleCount\":2.0,\"value\":75.13089005235602},{\"timestamp\":\"2026-10-31T12:22:00.000+0000\",\"sampleCount\":2.0,\"value\":76.43979057591623},{\"timestamp\":\"2026-10-31T12:21:00.000+0000\",\"sampleCount\":2.0,\"value\":75.13089005235602}]}",
+            "StateUpdatedTimestamp": "2026-10-31T13:24:18.065000+01:00",
+            "MetricName": "CPUUtilization",
+            "Namespace": "AntMedia/Scaling",
+            "Statistic": "Maximum",
+            "Dimensions": [
+                {
+                    "Name": "AutoScalingGroupName",
+                    "Value": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+                }
+            ],
+            "Period": 60,
+            "EvaluationPeriods": 3,
+            "Threshold": 75.0,
+            "ComparisonOperator": "GreaterThanThreshold",
+            "TreatMissingData": "notBreaching",
+            "StateTransitionedTimestamp": "2026-10-31T13:24:18.065000+01:00"
+        },
+        {
+            "AlarmName": "mohit-streamaware-test-OriginGPUSafetyAlarm-NQFjnv80HYaS",
+            "AlarmArn": "arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:mohit-streamaware-test-OriginGPUSafetyAlarm-NQFjnv80HYaS",
+            "AlarmDescription": "GPU encoder utilisation is high. Not decoration: on a g5.4xlarge the encoder saturates at twelve transcoded 1080p streams while CPU reads 15 to 20 percent, so a CPU alarm alone would never fire on that hardware. Published by the collector, which reads nvidia-smi.",
+            "AlarmConfigurationUpdatedTimestamp": "2026-10-31T12:37:44.474000+01:00",
+            "ActionsEnabled": true,
+            "OKActions": [],
+            "AlarmActions": [
+                "arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:94772e58-b644-49ed-9061-c5ad76bb95f3:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK:policyName/mohit-streamaware-test-OriginCPUSafetyPolicy-utCykmvsVx7b"
+            ],
+            "InsufficientDataActions": [],
+            "StateValue": "OK",
+            "StateReason": "Threshold Crossed: no datapoints were received for 3 periods and 3 missing datapoints were treated as [NonBreaching].",
+            "StateReasonData": "{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:38:30.197+0000\",\"statistic\":\"Average\",\"period\":60,\"recentDatapoints\":[],\"threshold\":75.0,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:37:00.000+0000\"}]}",
+            "StateUpdatedTimestamp": "2026-10-31T12:38:30.199000+01:00",
+            "MetricName": "GPUEncoderUtilization",
+            "Namespace": "AntMedia/Scaling",
+            "Statistic": "Average",
+            "Dimensions": [
+                {
+                    "Name": "AutoScalingGroupName",
+                    "Value": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+                }
+            ],
+            "Period": 60,
+            "EvaluationPeriods": 3,
+            "Threshold": 75.0,
+            "ComparisonOperator": "GreaterThanThreshold",
+            "TreatMissingData": "notBreaching",
+            "StateTransitionedTimestamp": "2026-10-31T12:38:30.199000+01:00"
+        },
+        {
+            "AlarmName": "mohit-streamaware-test-OriginScaleInAlarm-tk8ZYFHvdom4",
+            "AlarmArn": "arn:aws:cloudwatch:ap-south-1:<account-id>:alarm:mohit-streamaware-test-OriginScaleInAlarm-tk8ZYFHvdom4",
+            "AlarmDescription": "Fleet load index has stayed low for fifteen consecutive minutes. Deliberately slow. A node takes around 106 seconds to become available and five minutes to drain, and the stock CPU policy was observed removing a node five minutes and forty five seconds after adding it.",
+            "AlarmConfigurationUpdatedTimestamp": "2026-10-31T12:37:44.332000+01:00",
+            "ActionsEnabled": true,
+            "OKActions": [],
+            "AlarmActions": [
+                "arn:aws:autoscaling:ap-south-1:<account-id>:scalingPolicy:f3bd4ce0-c6f1-44e9-b02a-9ea02414fe16:autoScalingGroupName/mohit-streamaware-test-OriginGroup-2OINn64GB9VK:policyName/mohit-streamaware-test-OriginScaleInPolicy-pBT6EL0oQj9k"
+            ],
+            "InsufficientDataActions": [],
+            "StateValue": "OK",
+            "StateReason": "Threshold Crossed: 1 out of the last 15 datapoints [0.42857142857142855 (31/10/26 11:52:00)] was not less than the threshold (0.35) (minimum 1 datapoint for ALARM -> OK transition).",
+            "StateReasonData": "{\"version\":\"1.0\",\"queryDate\":\"2026-10-31T11:53:58.220+0000\",\"startDate\":\"2026-10-31T11:38:00.000+0000\",\"period\":60,\"recentDatapoints\":[0.0,0.0,0.0,0.0,0.0,0.0,0.08571428571428572,0.08571428571428572,0.17142857142857143,0.17142857142857143,0.2571428571428571,0.2571428571428571,0.34285714285714286,0.34285714285714286,0.42857142857142855],\"threshold\":0.35,\"evaluatedDatapoints\":[{\"timestamp\":\"2026-10-31T11:52:00.000+0000\",\"value\":0.42857142857142855}]}",
+            "StateUpdatedTimestamp": "2026-10-31T12:53:58.223000+01:00",
+            "Dimensions": [],
+            "EvaluationPeriods": 15,
+            "DatapointsToAlarm": 15,
+            "Threshold": 0.35,
+            "ComparisonOperator": "LessThanThreshold",
+            "TreatMissingData": "notBreaching",
+            "Metrics": [
+                {
+                    "Id": "fleetload",
+                    "MetricStat": {
+                        "Metric": {
+                            "Namespace": "AntMedia/Scaling",
+                            "MetricName": "LoadIndex",
+                            "Dimensions": [
+                                {
+                                    "Name": "AutoScalingGroupName",
+                                    "Value": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+                                }
+                            ]
+                        },
+                        "Period": 60,
+                        "Stat": "Sum"
+                    },
+                    "ReturnData": false
+                },
+                {
+                    "Id": "fleetsize",
+                    "MetricStat": {
+                        "Metric": {
+                            "Namespace": "AWS/AutoScaling",
+                            "MetricName": "GroupDesiredCapacity",
+                            "Dimensions": [
+                                {
+                                    "Name": "AutoScalingGroupName",
+                                    "Value": "mohit-streamaware-test-OriginGroup-2OINn64GB9VK"
+                                }
+                            ]
+                        },
+                        "Period": 60,
+                        "Stat": "Average"
+                    },
+                    "ReturnData": false
+                },
+                {
+                    "Id": "fleetindex",
+                    "Expression": "fleetload / fleetsize",
+                    "ReturnData": true
+                }
+            ],
+            "StateTransitionedTimestamp": "2026-10-31T12:53:58.223000+01:00"
+        }
+    ]
+}
